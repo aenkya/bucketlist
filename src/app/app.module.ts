@@ -10,6 +10,13 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { CustomMaterialModule } from './custom-material.module';
 
+import { rootRouterConfig } from './app.routing';
+import { HomeComponent } from './home';
+import { LoginComponent } from './login';
+import { AuthService } from './shared/auth.service';
+
+import { AuthGuard } from './shared/auth.guard';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -17,14 +24,19 @@ import { CustomMaterialModule } from './custom-material.module';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    rootRouterConfig,
     CustomMaterialModule
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    LoginComponent
   ],
   entryComponents:[
   ],
   providers: [
+    AuthService,
+    AuthGuard
   ],
   bootstrap: [ AppComponent ]
 })

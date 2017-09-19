@@ -1,0 +1,149 @@
+<div class="site-main surface-container" id="container">
+      <div class="screenContent">
+        <div class="metabar u-clearfix">
+          <div class="u-marginAuto u-maxWidth1000 u-paddingLeft20 u-paddingRight20 ">
+            <div class="u-floatLeft u-height65">
+              <a class="siteNav-logo mobile-hidden" [routerLink]="['/']">
+                <span class="svgIcon svgIcon--25px is-flushLeft">
+                  <img src="./assets/images/bucketlist.png" height="25px" width=100px>
+                </span>
+              </a>
+              <a class="siteNav-logo desktop-hidden" [routerLink]="['/']">
+                <span class="svgIcon svgIcon--25px is-flushLeft">
+                  <img src="./assets/images/whitebuck.png" height="50px" width=70px>
+                </span>
+              </a>
+            </div>
+            <div class="metabar-block u-floatRight u-height65">
+              <div class="buttonSet">
+                <label class="button button--chromeless button--small button--withSvgIcon inputGroup u-sm-hide metabar-predictiveSearch u-widthAuto u-height32 u-verticalAlignMiddle" title="Search">
+                  <span class="svgIcon svgIcon--search svgIcon--25px u-top0 u-baseColor--iconLight">
+                    <svg class="svgIcon-use" width="25" height="25" viewBox="0 0 25 25"><path d="M20.067 18.933l-4.157-4.157a6 6 0 1 0-.884.884l4.157 4.157a.624.624 0 1 0 .884-.884zM6.5 11c0-2.62 2.13-4.75 4.75-4.75S16 8.38 16 11s-2.13 4.75-4.75 4.75S6.5 13.62 6.5 11z"></path></svg>
+                  </span>
+                  <input class=" textInput textInput--darkText u-baseColor--textNormal textInput--transparent  u-lineHeight30 u-height32 u-verticalAlignMiddle" type="search" placeholder="Search Bucketlist" required="true">
+                </label>
+                <button class="button button--small button--circle button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon button--activity  u-marginRight10 u-marginLeft5 is-touched" title="Notifications" aria-label="Notifications">
+                  <span class="svgIcon svgIcon--25px">
+                    <svg class="svgIcon-use" width="25" height="25" viewBox="-293 409 25 25"><path d="M-273.327 423.67l-1.673-1.52v-3.646a5.5 5.5 0 0 0-6.04-5.474c-2.86.273-4.96 2.838-4.96 5.71v3.41l-1.68 1.553c-.204.19-.32.456-.32.734V427a1 1 0 0 0 1 1h3.49a3.079 3.079 0 0 0 3.01 2.45 3.08 3.08 0 0 0 3.01-2.45h3.49a1 1 0 0 0 1-1v-2.59c0-.28-.12-.55-.327-.74zm-7.173 5.63c-.842 0-1.55-.546-1.812-1.3h3.624a1.92 1.92 0 0 1-1.812 1.3zm6.35-2.45h-12.7v-2.347l1.63-1.51c.236-.216.37-.522.37-.843v-3.41c0-2.35 1.72-4.356 3.92-4.565a4.353 4.353 0 0 1 4.78 4.33v3.645c0 .324.137.633.376.85l1.624 1.477v2.373z"></path></svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="metabar metabar--spacer js-metabarSpacer u-height65 u-xs-height56 metabar-sibling"></div>
+
+        <main role="main" class="main u-marginTop20">
+          <article class=" postArticle " lang="en">
+            <div class="container u-maxWidth740">
+
+              <router-outlet></router-outlet>
+              
+            </div>
+          </article>
+        </main>
+        
+        <div class="postActionsBar">
+          <div class="postActionsBar-container container">
+            <div class="postActionsBar-content row">
+              <div class="u-height65 actionbar">
+                <div class=" u-maxWidth360 u-marginAuto u-relative">
+                  <div class="u-inline u-floatLeft">
+                    <a  md-button [routerLink]="['/create']" class="nav--accent u-paddingTop10 u-paddingBottom10 u-paddingRight8 u-paddingLeft8 u-minWidth68 desktop-hidden" >
+                      <div class="u-inline">
+                        <div class="u-inline buttonSet buttonSet--withLabels u-marginTop20">
+                          <div class="buttonSet-inner">
+                            <span class="svgIcon svgIcon--twitter svgIcon--29px">
+                              <md-icon>create</md-icon>
+                            </span>
+                            <div class="postMetaInline-authorLockupNav u-flex1">
+                              <p class="link--accent">Create</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <a  md-button (click)="openDialog('CreateBucketlistComponent')" class="nav--accent u-paddingTop10 u-paddingBottom10 mobile-hidden">
+                      <div class="u-inline">
+                        <div class="u-inline buttonSet buttonSet--withLabels u-marginTop20">
+                          <div class="buttonSet-inner">
+                            <span class="svgIcon svgIcon--twitter svgIcon--29px">
+                              <md-icon>create</md-icon>
+                            </span>
+                            <div class="postMetaInline-authorLockupNav u-flex1">
+                              <p class="link--accent">Create</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <a  md-button [routerLink]="['/bucketlists/in']" routerLinkActive="active" class="nav--accent u-paddingRight8 u-paddingLeft8 u-minWidth68 u-paddingTop10 u-paddingBottom10">
+                      <div class="u-inline">
+                        <div class="u-inline buttonSet buttonSet--withLabels u-marginTop20">
+                          <div class="buttonSet-inner">
+                            <span class="svgIcon svgIcon--twitter svgIcon--29px">
+                              <md-icon>list</md-icon>
+                            </span>
+                            <div class="postMetaInline-authorLockupNav u-flex1">
+                              <p class="link--accent">Bucketlists</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="u u-inline u-floatCenter">
+                    <a  md-button [routerLink]="['/bucketlists/history']" routerLinkActive="active" class="nav--accent u-paddingRight8 u-paddingLeft8 u-minWidth68 u-paddingTop10 u-paddingBottom10">
+                      <div class="u-inline u-marginRight5pct">
+                        <div class="u-inline buttonSet buttonSet--withLabels u-marginTop20">
+                          <div class="buttonSet-inner">
+                            <span class="svgIcon svgIcon--twitter svgIcon--29px">
+                              <md-icon>history</md-icon>
+                            </span>
+                            <div class="postMetaInline-authorLockupNav u-flex1">
+                              <p class="link--accent">History</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="u-inline u-floatRight">
+                    <a  md-button (click)="openDialog('LogOut')" class="nav--accent cursor u-paddingTop10 u-paddingBottom10 mobile-hidden">
+                      <div class="u-inline">
+                        <div class="u-inline buttonSet buttonSet--withLabels u-marginTop20">
+                          <div class="buttonSet-inner">
+                            <span class="svgIcon svgIcon--twitter svgIcon--29px">
+                              <md-icon>settings_power</md-icon>
+                            </span>
+                            <div class="postMetaInline-authorLockupNav u-flex1">
+                              <p class="link--accent">Log Out</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <a  md-button (click)="openDialog('LogOut')" class="nav--accent u-paddingTop10 u-paddingBottom10 u-paddingRight8 u-paddingLeft8 u-minWidth68 desktop-hidden">
+                      <div class="u-inline">
+                        <div class="u-inline buttonSet buttonSet--withLabels u-marginTop20">
+                          <div class="buttonSet-inner">
+                            <span class="svgIcon svgIcon--twitter svgIcon--29px">
+                              <md-icon>power_settings_new</md-icon>
+                            </span>
+                            <div class="postMetaInline-authorLockupNav u-flex1">
+                              <p class="link--accent">Log Out</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
