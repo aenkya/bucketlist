@@ -18,7 +18,6 @@ export class BucketlistService {
   constructor ( private http: Http) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
-    this.id = currentUser && currentUser.id;
 
     this.headers = new Headers();
 

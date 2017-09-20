@@ -3,8 +3,10 @@ import {MdDialog} from '@angular/material';
 import { Router } from '@angular/router';
 
 import { User } from '../shared/models/user';
+import { Bucketlist } from '../shared/models/bucketlist';
 import { UserService } from '../shared/user.service';
 import { AuthService } from '../shared/auth.service';
+import { BucketlistService } from '../shared/bucketlist.service';
 
 @Component({
   selector: 'app-home',
@@ -50,7 +52,7 @@ export class HomeComponent implements OnInit {
     return (item === undefined || item.length === 0) ? false : true;
   }
 
-  logout(){
+  logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
   }

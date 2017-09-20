@@ -13,6 +13,8 @@ import { CustomMaterialModule } from './custom-material.module';
 import { rootRouterConfig } from './app.routing';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
+import { BucketlistComponent } from './bucketlist';
+
 import { AuthService } from './shared/auth.service';
 import { BucketlistService } from './shared/bucketlist.service';
 
@@ -31,7 +33,8 @@ import { AuthGuard } from './shared/auth.guard';
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    BucketlistComponent
   ],
   entryComponents: [
   ],
