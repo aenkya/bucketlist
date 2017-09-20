@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../shared/auth.service';
 
-import { User } from '../shared/user';
+import { User } from '../shared/models/user';
 
 @Component({
   templateUrl: 'login.component.html',

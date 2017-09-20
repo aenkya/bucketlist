@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {MdDialog} from '@angular/material';
 import { Router } from '@angular/router';
 
-import { User } from '../shared/user';
+import { User } from '../shared/models/user';
 import { UserService } from '../shared/user.service';
 import { AuthService } from '../shared/auth.service';
 
