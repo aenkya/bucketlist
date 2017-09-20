@@ -14,6 +14,7 @@ import { rootRouterConfig } from './app.routing';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { AuthService } from './shared/auth.service';
+import { BucketlistService } from './shared/bucketlist.service';
 
 import { AuthGuard } from './shared/auth.guard';
 
@@ -32,11 +33,12 @@ import { AuthGuard } from './shared/auth.guard';
     HomeComponent,
     LoginComponent
   ],
-  entryComponents:[
+  entryComponents: [
   ],
   providers: [
     AuthService,
-    AuthGuard
+    AuthGuard,
+    BucketlistService
   ],
   bootstrap: [ AppComponent ]
 })

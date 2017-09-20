@@ -28,7 +28,7 @@
                   </span>
                 </button>
                 
-                <a *ngIf="checkItem(authUser)" [routerLink]="['/profile']" class="button button--chromeless u-baseColor--buttonNormal " aria-haspopup="true" title="{{authUser[0].local.email}}">
+                <a *ngIf="checkItem(authUser)" [routerLink]="['/profile']" class="button button--chromeless u-baseColor--buttonNormal " aria-haspopup="true" title="{{authUser.email}}">
                   <div class="avatar u-inlineBlock">
                     <span *ngIf="authUser.profile_pic_url === undefined">
                       <img src="././assets/images/mavatar.jpg" class="avatar-image avatar-image--icon" alt="{{authUser.first_name}}" title="Go to the profile of {{authUser.first_name}} {{authUser.last_name}}">
