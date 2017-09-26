@@ -7,7 +7,7 @@
           <div class="postMetaInline u-floatLeft">
             <div class="u-flexTop">
               <div class="u-paddingLeft5 u-bucketlistName">
-                <a class="link--accent u-accentColor--textNormal"  [routerLink]="['/bucketlists/bucketlist.id']">{{bucketlist.name}}</a>
+                <a class="link--accent u-accentColor--textNormal"  [routerLink]="['/bucketlists', bucketlist.id]">{{bucketlist.name}}</a>
               </div>
             </div>
           </div>
@@ -55,3 +55,5 @@
     </div>
   </div>
 </span>
+<app-feed-loader [loading]="loading"></app-feed-loader>
+<app-nobuckets [nobucketlists]="noBucketlists"></app-nobuckets>

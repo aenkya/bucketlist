@@ -8,6 +8,7 @@ import { User } from '../models/user';
 @Injectable()
 export class AuthService {
     private authUrl = 'http://localhost:5000/api/v1/auth/login';
+    private registerUrl = 'http://127.0.0.1:5000/api/v1/auth/register';
     public token: string;
 
     constructor(private http: Http) {
@@ -15,6 +16,31 @@ export class AuthService {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
     }
+
+    register(model): Observable <Boolean>  {
+
+        const headers = new Headers();
+        const data = {
+            'first_name': `${model.first_name}`,
+            'last_name': `${model.last_name}`,
+            'email': `${model.email}`,
+            'password': `${model.password}`,
+            'password_confirm': `${model.password_confirm}`,
+        };
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        const requestoptions = new RequestOptions({
+            headers: headers
+        });
+        return this.http
+        .post(this.registerUrl, JSON.stringify(data), requestoptions)
+        .map((res: Response) => {
+            if (res.status === 201) {
+                return true;
+            }
+        })
+        .catch((err) => this.handleError(err));
+}
 
     login(email: string, password: string): Observable <Boolean> {
       const headers = new Headers();

@@ -1,0 +1,59 @@
+<div class="spinner">
+  <md-progress-bar
+      class="spinner-md" 
+      *ngIf="loading===true"
+      mode="indeterminate">
+      Loading...
+  </md-progress-bar>
+</div>
+<div class="full-container">
+  <div class="register-wrapper">
+      <form class="register" name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+        <img class="logo" src="../assets/images/whitebuck.png" alt="logo" width=185px height=185px>
+        <div class="register-group">
+          <div class="username_div" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+            <md-input-container>
+              <input mdInput placeholder="Email Address" type="email" class="username" id="email" name="email" [(ngModel)]="model.email" #email="ngModel" required />
+            </md-input-container>
+            <div *ngIf="f.submitted && !email.valid" class="help-block">
+                Email is required
+            </div>
+          </div>
+          <div class="first_name_div" [ngClass]="{ 'has-error': f.submitted && !first_name.valid }">
+            <md-input-container>
+              <input mdInput placeholder="First Name" type="text" class="first_name" id="register_first_name" name="first_name" [(ngModel)]="model.first_name" #first_name="ngModel" required />
+            </md-input-container>
+            <div *ngIf="f.submitted && !first_name.valid" class="help-block">
+                First Name is required
+            </div>
+          </div>
+          <div class="last_name_div" [ngClass]="{ 'has-error': f.submitted && !last_name.valid }">
+            <md-input-container>
+              <input mdInput placeholder="Last Name" type="text" class="last_name" id="register_last_name" name="last_name" [(ngModel)]="model.last_name" #last_name="ngModel" required />
+            </md-input-container>
+            <div *ngIf="f.submitted && !last_name.valid" class="help-block">
+                Last Name is required
+            </div>
+          </div>
+          <div class="password_div" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+            <md-input-container>
+              <input mdInput placeholder="password" type="password" class="password" id="register_password" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+            </md-input-container>
+            <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+          </div>
+          <div class="password_confirm_div" [ngClass]="{ 'has-error': f.submitted && !password_confirm.valid }">
+            <md-input-container>
+              <input mdInput placeholder="Confirm password" type="password" class="password" id="register_password_confirm" name="password_confirm" [(ngModel)]="model.password_confirm" #password_confirm="ngModel" required />
+            </md-input-container>
+            <div *ngIf="f.submitted && !password_confirm.valid" class="help-block">Password Confirmation required</div>
+          </div>
+          <button md-raised-button [disabled]="loading" type="submit">Register</button>
+          <div *ngIf="error" class="error active">
+              {{error}}
+          </div>
+        </div>
+        <a [routerLink]="['/login']" rel="noopener" class="signup">login</a>
+      </form>
+  </div>
+</div>
+

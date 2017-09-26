@@ -9,12 +9,12 @@ import { User } from '../shared/models/user';
 import { UserService } from '../shared/user.service';
 
 @Component({
-  selector: 'app-bucketlists',
-  templateUrl: './bucketlist.component.html',
-  styleUrls: ['./bucketlist.component.scss'],
+  selector: 'app-bucketlist-detail',
+  templateUrl: './bucketlist-detail.component.html',
+  styleUrls: ['./bucketlist-detail.component.scss'],
   providers: [BucketlistService, UserService]
 })
-export class BucketlistComponent implements OnInit {
+export class BucketlistDetailComponent implements OnInit {
 
   allBucketlists: Bucketlist;
   public authUser: User[];

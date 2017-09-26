@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   questions: any[];
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router
   ) {}
 
