@@ -11,7 +11,6 @@ import { UpdateBucketlistComponent } from '../update-bucketlist';
 import { UserService } from '../shared/user.service';
 import { AuthService } from '../shared/auth.service';
 import {DialogsService} from '../shared/core/dialogs.service';
-import { BucketlistService } from '../shared/bucketlist.service';
 
 @Component({
   selector: 'app-home',

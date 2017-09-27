@@ -12,7 +12,7 @@ import { UserService } from '../shared/user.service';
   selector: 'app-create-bucketlist',
   templateUrl: './create-bucketlist.component.html',
   styleUrls: ['./create-bucketlist.component.scss'],
-  providers: [BucketlistService, UserService]
+  providers: [UserService]
 })
 export class CreateBucketlistComponent implements OnInit {
 
@@ -70,6 +70,7 @@ export class CreateBucketlistComponent implements OnInit {
     this.bucketlistService.createBucketlist(this.model)
         .subscribe(result => {
             if (result === true) {
+              this.bucketlistService.updateStream();
               this.timer = setTimeout(this.onLoad(), 3000);
               this.sendCloseNotification();
             }

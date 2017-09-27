@@ -13,7 +13,7 @@ import { UserService } from '../shared/user.service';
   selector: 'app-bucketlists',
   templateUrl: './bucketlist.component.html',
   styleUrls: ['./bucketlist.component.scss'],
-  providers: [BucketlistService, UserService]
+  providers: [UserService]
 })
 export class BucketlistComponent implements OnInit {
 
@@ -40,6 +40,14 @@ export class BucketlistComponent implements OnInit {
   ngOnInit(): void {
     this.authUser = this.userService.authUser;
     this.getBucketlists();
+
+    this.bucketlistService.primaryStream.subscribe((event) => {
+      console.log('this has been called', event);
+      if (event) {
+        console.log('item has been created');
+        this.getBucketlists();
+      }
+    });
   }
 
   getBucketlists(): void {

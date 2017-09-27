@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, RequestOptions } from '@angular/http';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable, ReplaySubject } from 'rxjs/Rx';
 import { Bucketlist } from '../models/bucketlist';
 import { AuthService } from '../auth.service';
 
@@ -14,6 +14,7 @@ export class BucketlistService {
   private id: string;
   headers;
   requestoptions;
+  public primaryStream: ReplaySubject<any> = new ReplaySubject();
 
 
   constructor ( private http: Http, private authService: AuthService) {
@@ -35,6 +36,10 @@ export class BucketlistService {
                .get(`${this.bucketlistsUrl}`, this.requestoptions)
                .map((res) => this.extractData(res))
                .catch((err) => this.handleError(err));
+  }
+
+  updateStream() {
+    this.primaryStream.next(true);
   }
 
   getBucketlist(id: number): Observable <Bucketlist> {
@@ -74,7 +79,7 @@ export class BucketlistService {
   }
 
   deleteBucketlist(bucketlist) {
-    console.log(bucketlist)
+    console.log(bucketlist);
     return this.http
     .delete(`${this.bucketlistsUrl}/${bucketlist}`, this.requestoptions)
     .map((res: Response) => {
