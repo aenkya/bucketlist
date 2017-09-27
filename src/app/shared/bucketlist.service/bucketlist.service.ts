@@ -48,7 +48,6 @@ export class BucketlistService {
     return this.http
                    .post(this.bucketlistsUrl, JSON.stringify(bucketlist), this.requestoptions)
                    .map((res: Response) => {
-                      this.getBucketlists();
                       return true;
                    })
                    .catch((err) => this.handleError(err));

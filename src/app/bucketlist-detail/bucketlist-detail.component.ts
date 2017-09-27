@@ -60,17 +60,15 @@ export class BucketlistDetailComponent implements OnInit {
   }
 
   addItem() {
-    this.loading = !this.loading;
     this.model.bucketlist_id = this.bucketlist_id;
     this.bucketlistService.addItem(this.model).subscribe(
       res => {
+        this.resetValues();
         if (res === true) {
-          this.loading = !this.loading;
           this.getBucketlist();
         }
       },
       error => {
-        this.loading = !this.loading;
         this.errorMessage = error;
       }
     );
@@ -99,4 +97,7 @@ export class BucketlistDetailComponent implements OnInit {
     return (item === undefined || item.length === 0) ? false : true;
   }
 
+  resetValues(): void {
+    this.model.name = null;
+  }
 }

@@ -9,9 +9,15 @@
 .button-item {
   margin-left:75%
 }
+.u-autoCursor {
+  cursor: pointer;
+}
+.u-width80pct {
+  width: 80%;
+}
 @media screen and (min-width: 720px) {
   .input-item {
-    width: 80%
+    width: 80%;
   }
   .button-item {
     margin-left:1rem;

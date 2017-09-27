@@ -28,7 +28,6 @@ export class CreateBucketlistComponent implements OnInit {
   private today: number;
   color = 'secondary';
   checked: boolean;
-  submitted = false;
   private errorMessage;
   error;
   timer;
@@ -66,13 +65,8 @@ export class CreateBucketlistComponent implements OnInit {
     return new Date(dateStr);
   }
 
-  onSubmit() {
-    this.submitted = true;
-    this.model.date_created = this.today;
-    this.model.date_modified = this.today;
-    this.model.created_by = this.authUser[0].id;
+  addBucketlist() {
     this.loading = !this.loading;
-
     this.bucketlistService.createBucketlist(this.model)
         .subscribe(result => {
             if (result === true) {

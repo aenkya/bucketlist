@@ -88,6 +88,20 @@ export class BucketlistComponent implements OnInit {
       });
   }
 
+  updateBucketlist(bucketlist: number) {
+    this.loading = !this.loading;
+    this.bucketlistService.updateBucketlist(bucketlist).subscribe(
+      res => {
+        if (res) {
+          this.openSnackBar('All Items marked as Complete', 'UNDO');
+        }
+      },
+      error => {
+        this.errorMessage = error;
+        this.openSnackBar(this.errorMessage, 'RETRY');
+      });
+  }
+
   openSnackBar(message: string, action: string) {
     this.loading = !this.loading;
     this.snackBar.open(message, 'UNDO', {

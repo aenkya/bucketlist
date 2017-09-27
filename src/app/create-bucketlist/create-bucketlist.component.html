@@ -5,7 +5,7 @@
 >
 </md-progress-bar>
 <div class="u-overflowY u-padding10">
-  <form *ngIf="authUser" name="form" (ngSubmit)="onSubmit()">
+  <form name="form" (ngSubmit)="addBucketlist()" (keyup.enter)="addBucketlist()">
     <div class="u-marginTop20">
       <md-input-container>
         <input mdInput name="name" placeholder="Bucketlist Name" id="create-bucketlistName" [(ngModel)]="model.name" #name="ngModel" autofocus="autofocus" required="required"  size="85">

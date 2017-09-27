@@ -625,6 +625,9 @@ main {
 .u-fontSize12 {
     font-size: 12px!important
 }
+.u-fontSize18 {
+    font-size: 18px!important
+}
 .u-lineHeight30 {
   line-height:30px!important
 }
@@ -688,7 +691,9 @@ main {
   display: table;
   content: " "
 }
-
+.u-displayBlock {
+    display: block;
+}
 .row:after {
   clear: both
 }
@@ -2419,10 +2424,6 @@ main {
 }
 .attachment--link:hover {
   text-decoration: underline;
-}
-.mat-input-wrapper {
-    margin: .2em 0;
-    padding-bottom: 2px;
 }
 
 .d-card{
