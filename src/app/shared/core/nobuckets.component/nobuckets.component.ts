@@ -11,6 +11,7 @@ import { User } from '../../../shared/models/user';
 
 export class NoBucketsComponent implements OnInit {
   @Input() nobucketlists: boolean;
+  @Input() isBucketlist: boolean;
 
   constructor() {
     this.nobucketlists = true;

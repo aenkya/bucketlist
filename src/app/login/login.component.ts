@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
             if (result === true) {
                 this.router.navigate(['/']);
             }
-        }, 
+        },
         errMsg => {
             this.error = errMsg;
             this.loading = false;

@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {MdDialog} from '@angular/material';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Bucketlist } from '../shared/models/bucketlist';
 import { BucketlistService } from '../shared/bucketlist.service';
+import {DialogsService} from '../shared/core/dialogs.service';
 
 import { User } from '../shared/models/user';
 import { UserService } from '../shared/user.service';
@@ -15,21 +16,24 @@ import { UserService } from '../shared/user.service';
   providers: [BucketlistService, UserService]
 })
 export class BucketlistDetailComponent implements OnInit {
-
-  allBucketlists: Bucketlist;
+  bucketlist: Bucketlist;
   public authUser: User[];
   model: any = {};
   public result: any;
   loading = false;
-  noBucketlists = false; // check if there are some bucketlists
+  feedLoading = false;
+  noItems = false;
   errorMessage: any;
   id;
+  bucketlist_id: number;
 
   constructor(
     private bucketlistService: BucketlistService,
     private userService: UserService,
     public dialog: MdDialog,
-    private router: Router
+    private router: Router,
+    private dialogService: DialogsService,
+    private _route: ActivatedRoute
   ) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.id = currentUser && currentUser.id;
@@ -37,21 +41,58 @@ export class BucketlistDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.authUser = this.userService.authUser;
-    this.getBucketlists();
+    this.getBucketlist();
   }
 
-  getBucketlists(): void {
-    this.loading = !this.loading;
-    this.bucketlistService.getBucketlists().subscribe(
+  getBucketlist(): void {
+    this.feedLoading = !this.feedLoading;
+    this.bucketlist_id = +this._route.snapshot.params['id'];
+    this.bucketlistService.getBucketlist(this.bucketlist_id).subscribe(
       res => {
-        this.loading = !this.loading;
-        this.allBucketlists = res['data'];
+        this.feedLoading = !this.feedLoading;
+        this.bucketlist = res;
+      },
+      error => {
+        this.feedLoading = !this.feedLoading;
+        this.noItems = true;
+        this.errorMessage = error;
+      });
+  }
+
+  addItem() {
+    this.loading = !this.loading;
+    this.model.bucketlist_id = this.bucketlist_id;
+    this.bucketlistService.addItem(this.model).subscribe(
+      res => {
+        if (res === true) {
+          this.loading = !this.loading;
+          this.getBucketlist();
+        }
       },
       error => {
         this.loading = !this.loading;
-        this.noBucketlists = true;
         this.errorMessage = error;
-      });
+      }
+    );
+  }
+
+  openDialog(componentName, item) {
+    switch (componentName) {
+      case 'delete':
+        this.dialogService
+            .confirm('Confirm Dialog', 'Are you sure you want to delete the item?')
+            .subscribe(res => {
+              res === true ? this.delete(item) : res = this.result;
+            });
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  delete(bucketlist: number) {
+
   }
 
   checkItem(item: any) {

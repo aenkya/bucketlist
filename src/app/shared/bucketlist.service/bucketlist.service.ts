@@ -3,6 +3,7 @@ import { Headers, Http, Response, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
 import { Bucketlist } from '../models/bucketlist';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class BucketlistService {
@@ -15,7 +16,7 @@ export class BucketlistService {
   requestoptions;
 
 
-  constructor ( private http: Http) {
+  constructor ( private http: Http, private authService: AuthService) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
 
@@ -32,6 +33,13 @@ export class BucketlistService {
   getBucketlists(): Observable <Bucketlist[]> {
     return this.http
                .get(`${this.bucketlistsUrl}`, this.requestoptions)
+               .map((res) => this.extractData(res))
+               .catch((err) => this.handleError(err));
+  }
+
+  getBucketlist(id: number): Observable <Bucketlist> {
+    return this.http
+               .get(`${this.bucketlistsUrl}/${id}`, this.requestoptions)
                .map((res) => this.extractData(res))
                .catch((err) => this.handleError(err));
   }
@@ -55,12 +63,41 @@ export class BucketlistService {
                    .catch((err) => this.handleError(err));
   }
 
+  addItem(item) {
+    return this.http
+    .post(`${this.bucketlistsUrl}/${item.bucketlist_id}/items`,
+      JSON.stringify(item),
+      this.requestoptions)
+    .map((res: Response) => {
+       return true;
+    })
+    .catch((err) => this.handleError(err));
+  }
+
+  deleteBucketlist(bucketlist) {
+    console.log(bucketlist)
+    return this.http
+    .delete(`${this.bucketlistsUrl}/${bucketlist}`, this.requestoptions)
+    .map((res: Response) => {
+       return true;
+    })
+    .catch((err) => this.handleError(err));
+  }
+
   private extractData(res: Response) {
     const body = res.json();
     return body;
   }
 
-  private handleError (error: Response | any) {
+  private handleError (error: Response | any ) {
+    if (error.status === 401) {
+      this.authService.login('test', 'test')
+      .subscribe(result => {
+        if (result === true) {
+          return;
+        }
+    });
+    }
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
@@ -69,7 +106,6 @@ export class BucketlistService {
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
-    console.error(errMsg);
     return Observable.throw(errMsg);
   }
 

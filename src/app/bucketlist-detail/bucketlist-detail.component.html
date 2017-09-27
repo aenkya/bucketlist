@@ -1,3 +1,70 @@
-
-<app-feed-loader [loading]="loading"></app-feed-loader>
-<app-nobuckets [nobucketlists]="noBucketlists"></app-nobuckets>
+<span *ngIf="checkItem(bucketlist)">
+  
+    <div class="responsesStreamWrapper u-maxWidth640">
+      <div class="row streamItemConversation-inner cardChromeless">
+        <div class="streamItemConversationItem streamItemConversationItem--preview">
+          <div class="u-clearfix u-marginBottom10">
+            <div class="postMetaInline u-floatLeft">
+              <div class="u-flexTop">
+                <md-progress-bar
+                  class="spinner-md" 
+                  *ngIf="loading"
+                  mode="indeterminate">
+                  Loading...
+                </md-progress-bar>
+                <div class="u-paddingLeft5 u-bucketlistName">
+                  <a class="link--accent" >{{bucketlist.name}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="u-paddingRight20 u-paddingLeft20 u-marginTop20 u-item-description" >
+            <form name="form" (ngSubmit)="addItem()">
+              <md-input-container class="input-item">
+                <input mdInput name="name" placeholder="New Item" id="create-itemName" [(ngModel)]="model.name" #name="ngModel" required="required">
+              </md-input-container>
+              <button type="submit" [disabled]="loading" class="u-inline button-item" md-raised-button >Add Item</button>
+            </form>
+            <span  *ngIf="bucketlist.items.length>0">
+              <ul class="u-margin0 u-padding0">
+                <li  class="u-margin0 u-padding0"  *ngFor="let item of bucketlist.items">
+                  <span class="u-fontSize12">{{item.name}}</span>
+                </li>
+              </ul>
+            </span>
+            <app-nobuckets *ngIf="!bucketlist.items" [nobucketlists]="checkItem(bucketlist.items)" [isBucketlist]=false></app-nobuckets>
+          </div>
+          <div class="u-clearfix">
+            <div class="buttonSet u-floatLeft">
+              <div class="buttonSet-inner">
+                <button class="button button--primary button--chromeless  u-accentColor--buttonNormal button--withIcon button--withSvgIcon u-accentColor--iconLight" title="Mark as Favorite" disabled="disabled">
+                  <span class="button-defaultState">
+                    <span class="svgIcon">
+                      <svg class="svgIcon-use" width="25" height="25" viewBox="0 0 25 25"><path d="M12.5 21a.492.492 0 0 1-.327-.122c-.278-.24-.61-.517-.978-.826-2.99-2.5-7.995-6.684-7.995-10.565C3.2 6.462 5.578 4 8.5 4c1.55 0 3 .695 4 1.89a5.21 5.21 0 0 1 4-1.89c2.923 0 5.3 2.462 5.3 5.487 0 3.97-4.923 8.035-7.865 10.464-.42.35-.798.66-1.108.93a.503.503 0 0 1-.327.12zM8.428 4.866c-2.414 0-4.378 2.05-4.378 4.568 0 3.475 5.057 7.704 7.774 9.975.243.2.47.39.676.56.245-.21.52-.43.813-.68 2.856-2.36 7.637-6.31 7.637-9.87 0-2.52-1.964-4.57-4.377-4.57-1.466 0-2.828.76-3.644 2.04-.1.14-.26.23-.43.23-.18 0-.34-.09-.43-.24-.82-1.27-2.18-2.03-3.65-2.03z" fill-rule="evenodd"></path></svg>
+                    </span>
+                  </span>
+                  <span class="button-activeState">
+                    <span class="svgIcon svgIcon--heartFilled svgIcon--25px is-flushLeft">
+                      <svg class="svgIcon-use" width="25" height="25" viewBox="0 0 25 25"><path d="M12.5 21a.492.492 0 0 1-.327-.122c-.278-.24-.61-.517-.978-.826-2.99-2.5-7.995-6.684-7.995-10.565C3.2 6.462 5.578 4 8.5 4c1.55 0 3 .695 4 1.89a5.21 5.21 0 0 1 4-1.89c2.923 0 5.3 2.462 5.3 5.487 0 3.97-4.923 8.035-7.865 10.464-.42.35-.798.66-1.108.93a.503.503 0 0 1-.327.12z" fill-rule="evenodd"></path></svg>
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div class="buttonSet u-floatRight">
+              <div class="buttonSet-inner ">
+                <button class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon" title="Delete bucketlist">
+                  <md-icon>delete</md-icon>
+                </button>
+                <button class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Mark all as Complete">
+                  <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+                    <md-icon>done_all</md-icon>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </span>

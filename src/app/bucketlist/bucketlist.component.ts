@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {MdDialog} from '@angular/material';
+import {MdDialog, MdSnackBar} from '@angular/material';
 import { Router } from '@angular/router';
 
 import { Bucketlist } from '../shared/models/bucketlist';
 import { BucketlistService } from '../shared/bucketlist.service';
+import {DialogsService} from '../shared/core/dialogs.service';
 
 import { User } from '../shared/models/user';
 import { UserService } from '../shared/user.service';
@@ -28,7 +29,8 @@ export class BucketlistComponent implements OnInit {
   constructor(
     private bucketlistService: BucketlistService,
     private userService: UserService,
-    public dialog: MdDialog,
+    public snackBar: MdSnackBar,
+    private dialogService: DialogsService,
     private router: Router
   ) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -52,6 +54,45 @@ export class BucketlistComponent implements OnInit {
         this.noBucketlists = true;
         this.errorMessage = error;
       });
+  }
+
+  openDialog(componentName, bucketlist = null) {
+    switch (componentName) {
+      case 'delete':
+        if (!bucketlist) {
+          return false;
+        }
+        this.dialogService
+            .confirm('Confirm Dialog', 'Are you sure you want to delete the bucketlist?')
+            .subscribe(res => {
+              res === true ? this.delete(bucketlist) : res = this.result;
+            });
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  delete(bucketlist: number) {
+    this.loading = !this.loading;
+    this.bucketlistService.deleteBucketlist(bucketlist).subscribe(
+      res => {
+        if (res) {
+          this.openSnackBar('Bucketlist Deleted', 'UNDO');
+        }
+      },
+      error => {
+        this.errorMessage = error;
+        this.openSnackBar(this.errorMessage, 'RETRY');
+      });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.loading = !this.loading;
+    this.snackBar.open(message, 'UNDO', {
+      duration: 2000,
+    });
   }
 
   checkItem(item: any) {

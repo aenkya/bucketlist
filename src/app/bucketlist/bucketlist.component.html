@@ -40,7 +40,7 @@
           </div>
           <div class="buttonSet u-floatRight">
             <div class="buttonSet-inner ">
-              <button class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon" title="Delete Task">
+              <button (click)="openDialog('delete', bucketlist.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon" title="Delete Task">
                 <md-icon>delete</md-icon>
               </button>
               <button class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Mark as Complete">
@@ -56,4 +56,4 @@
   </div>
 </span>
 <app-feed-loader [loading]="loading"></app-feed-loader>
-<app-nobuckets [nobucketlists]="noBucketlists"></app-nobuckets>
+<app-nobuckets [nobucketlists]="noBucketlists" [isBucketlist]=true></app-nobuckets>
