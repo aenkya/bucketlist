@@ -1,0 +1,43 @@
+<span *ngIf="checkItem(allBucketlists)">
+
+  <div class="responsesStreamWrapper u-maxWidth640"  *ngFor="let bucketlist of allBucketlists">
+    <div class="row streamItemConversation-inner cardChromeless">
+      <div class="streamItemConversationItem streamItemConversationItem--preview">
+        <div class="u-clearfix u-marginBottom10">
+          <div class="postMetaInline u-floatLeft">
+            <div class="u-flexTop">
+              <div class="u-paddingLeft5 u-bucketlistName">
+                <a class="link--accent u-accentColor--textNormal"  [routerLink]="['/bucketlists', bucketlist.id]">{{bucketlist.name}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="u-paddingRight20 u-paddingLeft20 u-marginTop20 u-description" >
+          <span  *ngIf="bucketlist.items.length>0">
+            <ul class="u-margin0 u-padding0">
+              <li  class="u-inline u-margin0 u-padding0"  *ngFor="let item of bucketlist.items">
+                <span class="u-fontSize12">{{item.name}}</span>
+              </li>
+            </ul>
+          </span>
+        </div>
+        <div class="u-clearfix">
+          <div class="buttonSet u-floatRight">
+            <div class="buttonSet-inner ">
+              <button (click)="openDialog('delete', bucketlist.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon" title="Delete Task">
+                <md-icon>delete</md-icon>
+              </button>
+              <button class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Mark as Complete">
+                <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+                  <md-icon>done</md-icon>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</span>
+<app-feed-loader [loading]="loading"></app-feed-loader>
+<app-nobuckets [nobucketlists]="noBucketlists" [isBucketlist]=true></app-nobuckets>

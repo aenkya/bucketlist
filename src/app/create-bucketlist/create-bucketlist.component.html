@@ -1,0 +1,23 @@
+<md-progress-bar
+[color]="primary"
+ mode="indeterminate"
+ *ngIf="loading"
+>
+</md-progress-bar>
+<div class="u-overflowY u-padding10">
+  <form name="form" (ngSubmit)="addBucketlist()" (keyup.enter)="addBucketlist()">
+    <div class="u-marginTop20">
+      <md-input-container>
+        <input mdInput name="name" placeholder="Bucketlist Name" id="create-bucketlistName" [(ngModel)]="model.name" #name="ngModel" autofocus="autofocus" required="required"  size="85">
+      </md-input-container>
+      <br>
+      <md-input-container class="u-marginTop20">
+        <textarea mdInput placeholder="Bucketlist Description" name="description" [(ngModel)]="model.description" #description="ngModel" id="create-description" rows="3" class="create-description">Life Goals</textarea>
+      </md-input-container>
+    </div>
+    <br class="u-block u-marginTop20">
+    <div class="u-floatRight">
+      <button type="submit" [disabled]="loading" class="u-inline" md-raised-button >Create Bucketlist</button>
+    </div>
+  </form>
+</div>

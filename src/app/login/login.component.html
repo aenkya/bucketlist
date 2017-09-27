@@ -1,0 +1,37 @@
+<div class="spinner">
+  <md-progress-bar
+      class="spinner-md" 
+      *ngIf="loading===true"
+      mode="indeterminate">
+      Loading...
+  </md-progress-bar>
+</div>
+<div class="full-container">
+  <div class="login-wrapper">
+      <form class="login" name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+        <img class="logo" src="../assets/images/whitebuck.png" alt="logo" width=185px height=185px>
+        <div class="login-group">
+          <div class="username_div" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+            <md-input-container>
+              <input mdInput placeholder="Email Address" type="text" class="username" id="login_username" name="username" [(ngModel)]="model.username" #username="ngModel" required />
+            </md-input-container>
+            <div *ngIf="f.submitted && !username.valid" class="help-block">
+                Username is required
+            </div>
+          </div>
+          <div class="password_div" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+            <md-input-container>
+              <input mdInput placeholder="password" type="password" class="password" id="login_password" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+            </md-input-container>
+            <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+          </div>
+          <button md-raised-button [disabled]="loading" type="submit">LOG IN</button>
+          <div *ngIf="error" class="error active">
+              {{error}}
+          </div>
+        </div>
+        <a [routerLink]="['/register']" rel="noopener" class="signup">Register</a>
+      </form>
+  </div>
+</div>
+
