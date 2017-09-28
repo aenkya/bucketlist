@@ -70,7 +70,7 @@ export class CreateBucketlistComponent implements OnInit {
     this.bucketlistService.createBucketlist(this.model)
         .subscribe(result => {
             if (result === true) {
-              this.bucketlistService.updateStream();
+              this.bucketlistService.primaryStream.next(true);
               this.timer = setTimeout(this.onLoad(), 3000);
               this.sendCloseNotification();
             }

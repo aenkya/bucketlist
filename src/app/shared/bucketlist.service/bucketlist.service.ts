@@ -38,10 +38,6 @@ export class BucketlistService {
                .catch((err) => this.handleError(err));
   }
 
-  updateStream() {
-    this.primaryStream.next(true);
-  }
-
   getBucketlist(id: number): Observable <Bucketlist> {
     return this.http
                .get(`${this.bucketlistsUrl}/${id}`, this.requestoptions)

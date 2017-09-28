@@ -21,6 +21,7 @@ export class BucketlistComponent implements OnInit {
   public authUser: User[];
   model: any = {};
   public result: any;
+  feedLoading = false;
   loading = false;
   noBucketlists = false; // check if there are some bucketlists
   errorMessage: any;
@@ -51,14 +52,14 @@ export class BucketlistComponent implements OnInit {
   }
 
   getBucketlists(): void {
-    this.loading = !this.loading;
+    this.feedLoading = !this.feedLoading;
     this.bucketlistService.getBucketlists().subscribe(
       res => {
-        this.loading = !this.loading;
+        this.feedLoading = !this.feedLoading;
         this.allBucketlists = res['data'];
       },
       error => {
-        this.loading = !this.loading;
+        this.feedLoading = !this.feedLoading;
         this.noBucketlists = true;
         this.errorMessage = error;
       });
