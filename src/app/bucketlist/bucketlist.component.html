@@ -1,9 +1,8 @@
-<span *ngIf="checkItem(allBucketlists)">
+<span *ngIf="allBucketlists?.data">
 
-  <div class="responsesStreamWrapper u-maxWidth640"  *ngFor="let bucketlist of allBucketlists">
+  <div class="responsesStreamWrapper u-maxWidth640"  *ngFor="let bucketlist of allBucketlists.data">
     <div class="row streamItemConversation-inner cardChromeless">
       <md-progress-bar
-      class="spinner-md"
       mode="determinate">
         Loading...
       </md-progress-bar>
@@ -12,7 +11,14 @@
           <div class="postMetaInline u-floatLeft">
             <div class="u-flexTop">
               <div class="u-paddingLeft5 u-bucketlistName">
-                <a class="link--accent u-accentColor--textNormal"  [routerLink]="['/bucketlists', bucketlist.id]">{{bucketlist.name}}</a>
+                <span *ngIf="editBucketlist!==bucketlist.id">
+                  <a class="link--accent u-accentColor--textNormal"  [routerLink]="['/bucketlists', bucketlist.id]" (dblclick)="toggleEdit(bucketlist.id)">{{bucketlist.name}}</a>
+                </span>
+                <span *ngIf="editBucketlist===bucketlist.id">
+                  <md-input-container class="u-width100pct u-noPadding">
+                    <input mdInput name="bucketlist" id="edit-bucketlistName" [(ngModel)]="model.name" #name="ngModel" />
+                  </md-input-container>
+                </span>
               </div>
               <div class="postMetaInline">
                 <div class="u-flexTop">
@@ -32,24 +38,62 @@
           </div>
         </div>
         <div class="u-paddingRight20 u-paddingLeft20 u-marginTop20 u-description" >
-          <span class="u-fontSize12">{{bucketlist.description}}</span>
+          <span *ngIf="editBucketlist!==bucketlist.id" class="u-fontSize12" (dblclick)="toggleEdit(bucketlist.id)">{{bucketlist.description}}</span>
+          <span *ngIf="editBucketlist===bucketlist.id">
+              <md-input-container class="u-width100pct u-noPadding">
+                <input mdInput name="bucketlist" id="edit-bucketlistDescription" [(ngModel)]="model.description" #description="ngModel" />
+              </md-input-container>
+            </span>
         </div>
         <div class="u-clearfix">
-          <div class="buttonSet u-floatRight">
-            <div class="buttonSet-inner ">
-              <button (click)="openDialog('delete', bucketlist.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon" title="Delete Task">
-                <md-icon>delete</md-icon>
-              </button>
-              <button class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Mark as Complete">
-                <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
-                  <md-icon>done</md-icon>
-                </span>
-              </button>
+          <span *ngIf="editBucketlist!==bucketlist.id">
+            <div class="buttonSet u-floatRight">
+                <div class="buttonSet-inner ">
+                  <button (click)="openDialog('delete', bucketlist.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon" title="Delete Bucketlist">
+                    <md-icon>delete</md-icon>
+                  </button>
+                  <button (click)="toggleEdit(bucketlist.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Mark as Complete">
+                    <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+                      <md-icon>edit</md-icon>
+                    </span>
+                  </button>
+                </div>
             </div>
-          </div>
+          </span>
+          <span *ngIf="editBucketlist===bucketlist.id">
+              <div class="buttonSet u-floatRight">
+                  <div class="buttonSet-inner ">
+                    <button (click)="toggleEdit()" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon" title="Cancel Edit">
+                      <md-icon>cancel</md-icon>
+                    </button>
+                    <button (click)="updateBucketlist(editBucketlist)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Save">
+                      <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+                        <md-icon>save</md-icon>
+                      </span>
+                    </button>
+                  </div>
+              </div>
+            </span>
         </div>
       </div>
     </div>
+  </div>
+  <div class="responsesStreamWrapper u-maxWidth640">
+    <span class="u-marginAuto">
+      <button *ngIf="allBucketlists.prev_page" (click)="getPage(allBucketlists.prev_page)" class="u-textAlignRight paginator button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon paginator"  title="Get Previous">
+        <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+          previous
+        </span>
+      </button>
+      <span class="middotDivider u-fontSize12"></span>
+      <span class="u-fontSize12">{{allBucketlists?.page}}</span>
+      <span class="middotDivider u-fontSize12"></span>
+      <button *ngIf="allBucketlists.next_page" [disabled]="lastPage" (click)="getPage(allBucketlists.next_page)" class="u-textAlignLeft paginator button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Get Next">
+        <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+          next
+        </span>
+      </button>
+    </span>
   </div>
 </span>
 <app-feed-loader [loading]="feedLoading"></app-feed-loader>

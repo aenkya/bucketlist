@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
-import {MdDialog, MdSnackBar} from '@angular/material';
+import {MdDialog, MdSnackBar, MdTooltip} from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Bucketlist } from '../shared/models/bucketlist';

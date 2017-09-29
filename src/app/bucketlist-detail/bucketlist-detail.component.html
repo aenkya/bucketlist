@@ -3,8 +3,6 @@
     <div class="responsesStreamWrapper u-maxWidth640">
       <div class="row streamItemConversation-inner cardChromeless">
         <md-progress-bar
-          class="spinner-md" 
-          *ngIf="loading"
           mode="determinate">
           Loading...
         </md-progress-bar>
@@ -51,12 +49,19 @@
                           </span>
                         </span>
                       </label>
-                      <span class="u-fontSize12 u-autoCursor" (dblclick)="toggleEdit(item.id)">{{item.name}}</span>
+                      <span mdTooltip="Tooltip!">
+                        <span class="u-fontSize12" title="Double Click to edit" (dblclick)="toggleEdit(item.id)">{{item.name}}</span>
+                      </span>
                       <button (click)="openDialog('delete', item.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon u-floatRight" title="Delete">
-                          <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
-                            <md-icon>delete</md-icon>
-                          </span>
-                        </button>
+                        <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+                          <md-icon>delete</md-icon>
+                        </span>
+                      </button>
+                      <button (click)="toggleEdit(item.id)"class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon u-floatRight" title="Delete">
+                        <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+                          <md-icon>edit</md-icon>
+                        </span>
+                      </button>
                     </span>
                   </span>
                 </li>

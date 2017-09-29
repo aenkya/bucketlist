@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
 
 import { Observable, ReplaySubject } from 'rxjs/Rx';
 import { Bucketlist } from '../models/bucketlist';
@@ -18,7 +19,7 @@ export class BucketlistService {
   public primaryStream: ReplaySubject<any> = new ReplaySubject();
 
 
-  constructor ( private http: Http, private authService: AuthService) {
+  constructor ( private http: Http, private authService: AuthService, private router: Router) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
 
@@ -32,9 +33,28 @@ export class BucketlistService {
     });
   }
 
-  getBucketlists(): Observable <Bucketlist[]> {
+  getBucketlists(limit = null, page = null, q = null): Observable <Bucketlist[]> {
+    let queryUrl = this.bucketlistsUrl;
+    if (limit) {
+      queryUrl = queryUrl + '?limit=' + limit;
+      if (page) {
+        queryUrl = queryUrl + '&page=' + page;
+      }
+      if (q) {
+        queryUrl = queryUrl + '&q=' + q;
+      }
+    }
     return this.http
                .get(`${this.bucketlistsUrl}`, this.requestoptions)
+               .map((res) => this.extractData(res))
+               .catch((err) => this.handleError(err));
+  }
+
+  getPage(pageUrl: string): Observable <Bucketlist[]> {
+    console.log('here')
+    console.log(`http://localhost:5000${pageUrl}`)
+    return this.http
+               .get(`http://localhost:5000${pageUrl}`, this.requestoptions)
                .map((res) => this.extractData(res))
                .catch((err) => this.handleError(err));
   }
@@ -57,7 +77,7 @@ export class BucketlistService {
 
   updateBucketlist(model): Observable <Boolean> {
     return this.http
-                   .put(`${this.bucketlistsUrl}/${model.bucketlist_id}`, JSON.stringify(model), this.requestoptions)
+                   .put(`${this.bucketlistsUrl}/${model.id}`, JSON.stringify(model), this.requestoptions)
                    .map((res: Response) => {
                       return true;
                    })
@@ -116,12 +136,8 @@ export class BucketlistService {
 
   private handleError (error: Response | any ) {
     if (error.status === 401) {
-      this.authService.login('test', 'test')
-      .subscribe(result => {
-        if (result === true) {
-          return;
-        }
-    });
+      this.authService.logout();
+      this.router.navigate(['/']);
     }
     let errMsg: string;
     if (error instanceof Response) {

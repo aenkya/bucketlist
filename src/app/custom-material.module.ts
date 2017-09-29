@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import {
-  MdButtonModule,
-  MdCheckboxModule,
-  MdDialogModule,
+  MdButtonModule, 
+  MdCheckboxModule, 
+  MdDialogModule, 
   MdSnackBarModule,
   MdInputModule,
   MdToolbarModule,
@@ -20,8 +20,8 @@ import {
 
 @NgModule({
   imports: [
-    MdButtonModule,
-    MdCheckboxModule,
+    MdButtonModule, 
+    MdCheckboxModule, 
     MdDialogModule,
     MdSnackBarModule,
     MdInputModule,
@@ -37,8 +37,8 @@ import {
     MdSelectModule
   ],
   exports: [
-    MdButtonModule,
-    MdCheckboxModule,
+    MdButtonModule, 
+    MdCheckboxModule, 
     MdDialogModule,
     MdSnackBarModule,
     MdInputModule,

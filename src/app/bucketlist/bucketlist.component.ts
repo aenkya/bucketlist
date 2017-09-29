@@ -17,7 +17,8 @@ import { UserService } from '../shared/user.service';
 })
 export class BucketlistComponent implements OnInit {
 
-  allBucketlists: Bucketlist[];
+  allBucketlists: any;
+  page_meta: any;
   public authUser: User[];
   model: any = {};
   public result: any;
@@ -26,6 +27,9 @@ export class BucketlistComponent implements OnInit {
   noBucketlists = false; // check if there are some bucketlists
   errorMessage: any;
   id;
+  edit = false;
+  editBucketlist: number;
+  firstPage = true;
 
   constructor(
     private bucketlistService: BucketlistService,
@@ -52,14 +56,17 @@ export class BucketlistComponent implements OnInit {
   getBucketlists(from_delete = false): void {
     this.feedLoading = !this.feedLoading;
     if (from_delete) {
-      this.allBucketlists = [];
+      this.allBucketlists = {};
     }
     this.bucketlistService.getBucketlists().subscribe(
       res => {
         this.feedLoading = !this.feedLoading;
-        this.allBucketlists = res['data'];
-        if (this.allBucketlists) {
+        this.allBucketlists = res;
+        if (this.allBucketlists.data) {
           this.noBucketlists = false;
+        }
+        if (this.allBucketlists.page !== 1) {
+          this.firstPage = false;
         }
       },
       error => {
@@ -67,6 +74,18 @@ export class BucketlistComponent implements OnInit {
         this.noBucketlists = true;
         this.errorMessage = error;
       });
+  }
+
+  getPage(nextPage: string) {
+    this.bucketlistService.getPage(nextPage).subscribe(res => {
+      this.allBucketlists = res;
+      if (this.allBucketlists.data) {
+        this.noBucketlists = false;
+      }
+    },
+    error => {
+      this.errorMessage = error;
+    });
   }
 
   openDialog(componentName, bucketlist = null) {
@@ -104,10 +123,14 @@ export class BucketlistComponent implements OnInit {
 
   updateBucketlist(bucketlist: number) {
     this.loading = !this.loading;
-    this.bucketlistService.updateBucketlist(bucketlist).subscribe(
+    this.model.id = bucketlist;
+    return this.bucketlistService.updateBucketlist(this.model).subscribe(
       res => {
+        this.resetValues();
         if (res) {
-          this.openSnackBar('All Items marked as Complete', 'UNDO');
+          this.loading = !this.loading;
+          this.getBucketlists();
+          this.toggleEdit();
         }
       },
       error => {
@@ -125,6 +148,16 @@ export class BucketlistComponent implements OnInit {
 
   checkItem(item: any) {
     return (item === undefined || item.length === 0) ? false : true;
+  }
+
+  toggleEdit(bucketlist = null) {
+    this.resetValues();
+    this.editBucketlist = bucketlist;
+    this.edit = !this.edit;
+  }
+
+  resetValues(): void {
+    this.model.name = null;
   }
 
 }
