@@ -3,6 +3,7 @@ import { Headers, Http, Response, RequestOptions } from '@angular/http';
 
 import { Observable, ReplaySubject } from 'rxjs/Rx';
 import { Bucketlist } from '../models/bucketlist';
+import { Item } from '../models/item';
 import { AuthService } from '../auth.service';
 
 @Injectable()
@@ -54,7 +55,7 @@ export class BucketlistService {
                    .catch((err) => this.handleError(err));
   }
 
-  updateBucketlist(model) {
+  updateBucketlist(model): Observable <Boolean> {
     return this.http
                    .put(`${this.bucketlistsUrl}/${model.bucketlist_id}`, JSON.stringify(model), this.requestoptions)
                    .map((res: Response) => {
@@ -63,7 +64,32 @@ export class BucketlistService {
                    .catch((err) => this.handleError(err));
   }
 
-  addItem(item) {
+  getItems(bucketlist_id: number): Observable <Item[]> {
+    return this.http
+               .get(`${this.bucketlistsUrl}/${bucketlist_id}/items`, this.requestoptions)
+               .map((res) => this.extractData(res))
+               .catch((err) => this.handleError(err));
+  }
+
+  updateItem(model): Observable <Boolean> {
+    return this.http
+                   .put(`${this.bucketlistsUrl}/${model.bucketlist_id}/items/${model.id}`, JSON.stringify(model), this.requestoptions)
+                   .map((res: Response) => {
+                      return true;
+                   })
+                   .catch((err) => this.handleError(err));
+  }
+
+  deleteItem(model): Observable <Boolean> {
+    return this.http
+      .delete(`${this.bucketlistsUrl}/${model.bucketlist_id}/items/${model.id}`, this.requestoptions)
+      .map((res: Response) => {
+        return true;
+      })
+      .catch((err) => this.handleError(err));
+  }
+
+  addItem(item): Observable <Boolean> {
     return this.http
     .post(`${this.bucketlistsUrl}/${item.bucketlist_id}/items`,
       JSON.stringify(item),
@@ -74,8 +100,7 @@ export class BucketlistService {
     .catch((err) => this.handleError(err));
   }
 
-  deleteBucketlist(bucketlist) {
-    console.log(bucketlist);
+  deleteBucketlist(bucketlist): Observable <Boolean> {
     return this.http
     .delete(`${this.bucketlistsUrl}/${bucketlist}`, this.requestoptions)
     .map((res: Response) => {

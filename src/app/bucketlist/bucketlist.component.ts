@@ -17,7 +17,7 @@ import { UserService } from '../shared/user.service';
 })
 export class BucketlistComponent implements OnInit {
 
-  allBucketlists: Bucketlist;
+  allBucketlists: Bucketlist[];
   public authUser: User[];
   model: any = {};
   public result: any;
@@ -43,20 +43,24 @@ export class BucketlistComponent implements OnInit {
     this.getBucketlists();
 
     this.bucketlistService.primaryStream.subscribe((event) => {
-      console.log('this has been called', event);
       if (event) {
-        console.log('item has been created');
         this.getBucketlists();
       }
     });
   }
 
-  getBucketlists(): void {
+  getBucketlists(from_delete = false): void {
     this.feedLoading = !this.feedLoading;
+    if (from_delete) {
+      this.allBucketlists = [];
+    }
     this.bucketlistService.getBucketlists().subscribe(
       res => {
         this.feedLoading = !this.feedLoading;
         this.allBucketlists = res['data'];
+        if (this.allBucketlists) {
+          this.noBucketlists = false;
+        }
       },
       error => {
         this.feedLoading = !this.feedLoading;
@@ -89,6 +93,7 @@ export class BucketlistComponent implements OnInit {
       res => {
         if (res) {
           this.openSnackBar('Bucketlist Deleted', 'UNDO');
+          this.getBucketlists(true);
         }
       },
       error => {

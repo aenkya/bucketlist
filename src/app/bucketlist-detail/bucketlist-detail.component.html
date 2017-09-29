@@ -2,18 +2,21 @@
   
     <div class="responsesStreamWrapper u-maxWidth640">
       <div class="row streamItemConversation-inner cardChromeless">
+        <md-progress-bar
+          class="spinner-md" 
+          *ngIf="loading"
+          mode="determinate">
+          Loading...
+        </md-progress-bar>
         <div class="streamItemConversationItem streamItemConversationItem--preview">
           <div class="u-clearfix u-marginBottom10">
             <div class="postMetaInline u-floatLeft">
               <div class="u-flexTop">
-                <md-progress-bar
-                  class="spinner-md" 
-                  *ngIf="loading"
-                  mode="indeterminate">
-                  Loading...
-                </md-progress-bar>
                 <div class="u-paddingLeft5 u-bucketlistName">
-                  <a class="link--accent" (dblclick)="updateBucketlist()" >{{bucketlist.name}}</a>
+                  <a class="link--accent link u-marginRight20" (click)="back()" >
+                    <md-icon>arrow_back</md-icon>
+                  </a>
+                  <a class="link--accent link" (dblclick)="updateBucketlist()" >{{bucketlist.name}}</a>
                 </div>
               </div>
             </div>
@@ -22,45 +25,52 @@
             <md-input-container class="input-item">
               <input mdInput name="name" placeholder="New Item" id="create-itemName" [(ngModel)]="model.name" #name="ngModel" (keyup.enter)="addItem()">
             </md-input-container>
-            <button click="addItem()" type="submit" [disabled]="loading" class="u-inline button-item" md-raised-button >Add Item</button>
-            <span  *ngIf="bucketlist.items.length>0">
+            <button (click)="addItem()" [disabled]="loading" class="u-inline button-item" md-raised-button >Add Item</button>
+            <span  *ngIf="items?.length>0">
               <ul class="u-margin0 u-padding0">
-                <li  class="u-marginTop10 u-padding0 u-displayBlock"  *ngFor="let item of bucketlist.items">
-                  <span class="postMetaInline u-floatLeft u-width80pct">
-                    <label for="item-{{item.id}}" class="label">
-                      <input id="item-{{item.id}}" class="toggle label__checkbox" type="checkbox" (click)="toggleCompletion(item)" [checked]="item.completed" />
-                      <span class="label__text">
-                        <span class="label__check">
-                          <md-icon class="fa fa-check icon">done</md-icon>
+                <li  class="u-marginTop10 u-displayBlock"  *ngFor="let item of items">
+                  <span class="postMetaInline u-floatLeft u-width100pct u-marginBottom20">
+                    <span *ngIf="editItem===item.id">
+                      <md-input-container class="u-width100pct u-noPadding">
+                        <input mdInput name="item" value="{{item?.name}}" id="edit-itemName" [(ngModel)]="itemModel.name" #item="ngModel" (keyup.enter)="updateItem(editItem)" />
+                      </md-input-container>
+                      <span class="postMetaInline ">
+                        <button (click)="toggleEdit()" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Cancel Edit">
+                          <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+                            <md-icon>cancel</md-icon>
+                          </span>
+                        </button>
+                      </span>
+                    </span>
+                    <span *ngIf="editItem!==item.id">
+                      <label for="item-{{item.id}}" class="label">
+                        <input id="item-{{item.id}}" class="toggle label__checkbox" type="checkbox" (click)="toggleCompletion(item)" [checked]="item.done" />
+                        <span class="label__text">
+                          <span class="label__check">
+                            <md-icon class="fa fa-check icon">done</md-icon>
+                          </span>
                         </span>
-                      </span>
-                    </label>
-                    <span class="u-fontSize12 u-autoCursor" (dblclick)="updateItem(item)">{{item.name}}</span>
-                  </span>
-                  <span class="postMetaInline">
-                    <button (click)="openDialog('complete', item.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Mark as Complete">
-                      <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
-                        <md-icon>edit</md-icon>
-                      </span>
-                    </button>
-                    <button (click)="openDialog('delete', item.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon " title="Delete">
-                      <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
-                        <md-icon>delete</md-icon>
-                      </span>
-                    </button>
+                      </label>
+                      <span class="u-fontSize12 u-autoCursor" (dblclick)="toggleEdit(item.id)">{{item.name}}</span>
+                      <button (click)="openDialog('delete', item.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon u-floatRight" title="Delete">
+                          <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+                            <md-icon>delete</md-icon>
+                          </span>
+                        </button>
+                    </span>
                   </span>
                 </li>
               </ul>
             </span>
-            <app-nobuckets *ngIf="!bucketlist.items" [nobucketlists]="checkItem(bucketlist.items)" [isBucketlist]=false></app-nobuckets>
+            <app-nobuckets *ngIf="items?.length<=0" [nobucketlists]="items?.length<=0" [isBucketlist]=false></app-nobuckets>
           </div>
           <div class="u-clearfix">
             <div class="buttonSet u-floatRight">
               <div class="buttonSet-inner ">
-                <button class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon" title="Delete bucketlist">
-                  <md-icon>delete</md-icon>
+                <button (click)="openDialog('deleteAll', null)" [disabled]="noItems" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon" title="Delete bucketlist">
+                  <md-icon>delete_sweep</md-icon>
                 </button>
-                <button class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Mark all as Complete">
+                <button (click)="completeAll()" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Mark all as Complete">
                   <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
                     <md-icon>done_all</md-icon>
                   </span>
