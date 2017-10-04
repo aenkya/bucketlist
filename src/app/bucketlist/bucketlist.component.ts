@@ -28,7 +28,6 @@ export class BucketlistComponent implements OnInit {
   errorMessage: any;
   id;
   edit = false;
-  editBucketlist: number;
   firstPage = true;
 
   constructor(
@@ -47,18 +46,20 @@ export class BucketlistComponent implements OnInit {
     this.getBucketlists();
 
     this.bucketlistService.primaryStream.subscribe((event) => {
-      if (event) {
+      if (event === true) {
         this.getBucketlists();
+      } else if (event) {
+        this.getBucketlists(event);
       }
     });
   }
 
-  getBucketlists(from_delete = false): void {
+  getBucketlists(search_value: string = null, from_delete = false): void {
     this.feedLoading = !this.feedLoading;
     if (from_delete) {
       this.allBucketlists = {};
     }
-    this.bucketlistService.getBucketlists().subscribe(
+    this.bucketlistService.getBucketlists(search_value).subscribe(
       res => {
         this.feedLoading = !this.feedLoading;
         this.allBucketlists = res;
@@ -112,7 +113,7 @@ export class BucketlistComponent implements OnInit {
       res => {
         if (res) {
           this.openSnackBar('Bucketlist Deleted', 'UNDO');
-          this.getBucketlists(true);
+          this.getBucketlists(null, true);
         }
       },
       error => {
@@ -152,12 +153,16 @@ export class BucketlistComponent implements OnInit {
 
   toggleEdit(bucketlist = null) {
     this.resetValues();
-    this.editBucketlist = bucketlist;
+    this.model.id = bucketlist.id;
+    this.model.name = bucketlist.name;
+    this.model.description = bucketlist.description;
     this.edit = !this.edit;
   }
 
   resetValues(): void {
     this.model.name = null;
+    this.model.id = null;
+    this.model.description = null;
   }
 
 }

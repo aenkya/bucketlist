@@ -88,13 +88,11 @@ export class BucketlistDetailComponent implements OnInit {
   }
 
   addItem() {
-    console.log('method called', this.model);
     this.model.bucketlist_id = this.bucketlist_id;
     this.bucketlistService.addItem(this.model).subscribe(
       res => {
         this.resetValues();
         if (res === true) {
-          console.log(res);
           this.getItems();
         }
       },
@@ -162,10 +160,10 @@ export class BucketlistDetailComponent implements OnInit {
     this.itemModel.bucketlist_id = this.bucketlist_id;
     this.itemModel.id = item_id;
     if (completed !== null) {
-      if (!sweep) {
-        this.itemModel.done = !completed;
-      } else {
+      if (sweep) {
         this.itemModel.done = true;
+      } else {
+        this.itemModel.done = !completed;
       }
     }
     this.bucketlistService.updateItem(this.itemModel).subscribe(res => {

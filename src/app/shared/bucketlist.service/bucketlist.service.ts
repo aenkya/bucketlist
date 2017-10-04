@@ -33,26 +33,19 @@ export class BucketlistService {
     });
   }
 
-  getBucketlists(limit = null, page = null, q = null): Observable <Bucketlist[]> {
+  getBucketlists(q = null): Observable <Bucketlist[]> {
     let queryUrl = this.bucketlistsUrl;
-    if (limit) {
-      queryUrl = queryUrl + '?limit=' + limit;
-      if (page) {
-        queryUrl = queryUrl + '&page=' + page;
-      }
-      if (q) {
-        queryUrl = queryUrl + '&q=' + q;
-      }
+    if (q) {
+      queryUrl = queryUrl + '?q=' + q;
+      console.log(queryUrl);
     }
     return this.http
-               .get(`${this.bucketlistsUrl}`, this.requestoptions)
+               .get(`${queryUrl}`, this.requestoptions)
                .map((res) => this.extractData(res))
                .catch((err) => this.handleError(err));
   }
 
   getPage(pageUrl: string): Observable <Bucketlist[]> {
-    console.log('here')
-    console.log(`http://localhost:5000${pageUrl}`)
     return this.http
                .get(`http://localhost:5000${pageUrl}`, this.requestoptions)
                .map((res) => this.extractData(res))
@@ -107,6 +100,11 @@ export class BucketlistService {
         return true;
       })
       .catch((err) => this.handleError(err));
+  }
+
+  search(term: string): Observable <Boolean> {
+    this.primaryStream.next(term);
+    return Observable.of(true);
   }
 
   addItem(item): Observable <Boolean> {

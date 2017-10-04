@@ -30,7 +30,7 @@
                   <span class="postMetaInline u-floatLeft u-width100pct u-marginBottom20">
                     <span *ngIf="editItem===item.id">
                       <md-input-container class="u-width100pct u-noPadding">
-                        <input mdInput name="item" value="{{item?.name}}" id="edit-itemName" [(ngModel)]="itemModel.name" #item="ngModel" (keyup.enter)="updateItem(editItem)" />
+                        <input mdInput name="item" [value]="item.name" id="edit-itemName" [(ngModel)]="itemModel.name" #item="ngModel" (keyup.enter)="updateItem(editItem)" />
                       </md-input-container>
                       <span class="postMetaInline ">
                         <button (click)="toggleEdit()" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Cancel Edit">

@@ -1,0 +1,9 @@
+<input
+  #searchBox id="search-box"
+  (keyup)="search(searchBox.value)"
+  (keyup.enter)="enterSearch(searchBox.value)"
+  class="textInput textInput--darkText u-baseColor--textNormal textInput--transparent u-lineHeight30 u-height32 u-verticalAlignMiddle"
+  type="search"
+  placeholder="Search Bucketlist"
+  required="true">
+<div>

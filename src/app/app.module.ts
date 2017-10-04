@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import 'hammerjs';
 
 import { AppComponent } from './app.component';
 
@@ -28,6 +29,7 @@ import { DialogsService } from './shared/core/dialogs.service';
 import { ConfirmDialog } from './shared/core/confirm.dialog';
 import { CreateDialog } from './shared/core/create.dialog';
 import { UpdateDialog } from './shared/core/update.dialog';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   imports: [
@@ -51,6 +53,7 @@ import { UpdateDialog } from './shared/core/update.dialog';
     ConfirmDialog,
     CreateDialog,
     UpdateDialog,
+    SearchComponent,
   ],
   entryComponents: [
     CreateBucketlistComponent,
