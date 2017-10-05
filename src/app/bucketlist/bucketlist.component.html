@@ -43,6 +43,9 @@
         </div>
         <div class="u-clearfix">
           <span *ngIf="model.id!==bucketlist.id">
+              <div class="u-floatLeft u-fontSize12 u--meta">
+                {{bucketlist?.total}} items
+              </div>
             <div class="buttonSet u-floatRight">
                 <div class="buttonSet-inner ">
                   <button (click)="openDialog('delete', bucketlist.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon" title="Delete Bucketlist">
@@ -74,22 +77,22 @@
       </div>
     </div>
   </div>
-  <div class="responsesStreamWrapper u-maxWidth640">
+  <div class="responsesStreamWrapper u-maxWidth640" *ngIf="allBucketlists?.data.length>0">
     <span class="u-marginAuto">
       <span class="u-textAlignRight paginator">
-        <button *ngIf="allBucketlists?.page>1" (click)="getPage(allBucketlists.prev_page)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon paginator"  title="Get Previous">
+        <button [disabled]="allBucketlists?.page===1" (click)="getPage(allBucketlists.prev_page)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon paginator"  title="Get Previous">
           <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
             previous
           </span>
         </button>
       </span>
-      <span *ngIf="allBucketlists?.next_page">
+      <span>
         <span class="middotDivider u-fontSize12"></span>
         <span class="u-fontSize12">{{allBucketlists?.page}}</span>
         <span class="middotDivider u-fontSize12"></span>
       </span>
-      <span class="u-textAlignLeft paginator">
-        <button *ngIf="allBucketlists.next_page" [disabled]="lastPage" (click)="getPage(allBucketlists.next_page)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Get Next">
+      <span class="u-textAlignLeft u-marginLeft40pct paginator">
+        <button [disabled]="!allBucketlists?.next_page" (click)="getPage(allBucketlists.next_page)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Get Next">
           <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
             next
           </span>
@@ -99,4 +102,4 @@
   </div>
 </span>
 <app-feed-loader [loading]="feedLoading"></app-feed-loader>
-<app-nobuckets [nobucketlists]="noBucketlists" [isBucketlist]=true></app-nobuckets>
+<app-nobuckets [nobucketlists]="noBucketlists" [isBucketlist]=true [isSearchData]="noSearchData"></app-nobuckets>

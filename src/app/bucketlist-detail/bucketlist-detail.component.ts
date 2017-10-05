@@ -188,8 +188,10 @@ export class BucketlistDetailComponent implements OnInit {
 
   toggleEdit(item = null) {
     this.resetValues();
-    this.itemModel.id = item.id;
-    this.itemModel.name = item.name;
+    if (item) {
+      this.itemModel.id = item.id;
+      this.itemModel.name = item.name;
+    }
     this.edit = !this.edit;
   }
   resetValues(): void {

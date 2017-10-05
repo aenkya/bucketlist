@@ -431,6 +431,10 @@ main {
   width: 35px;
   float: right;
 }
+.u--meta {
+    margin-top: 20px;
+    border-top: 1px #eee Solid;
+}
 .u-marginTop20 {
   margin-top:20px!important;
 }
@@ -442,6 +446,9 @@ main {
 }
 .u-margin0 {
   margin-top:0px!important;
+}
+.u-marginLeft40pct {
+    margin-left: 40%!important;
 }
 .u-paddingLeft20 {
   padding-left: 20px!important;
@@ -473,6 +480,9 @@ main {
 .u-paddingBottom10 {
   padding-bottom: 10px!important;
 }
+.u-bucketlist {
+    padding-bottom: 80px!important;
+  }
 .u-relative {
     position: relative!important
 }

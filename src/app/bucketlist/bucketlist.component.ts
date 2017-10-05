@@ -26,6 +26,7 @@ export class BucketlistComponent implements OnInit {
   feedLoading = false;
   loading = false;
   noBucketlists = false; // check if there are some bucketlists
+  noSearchData = false;
   errorMessage: any;
   id;
   edit = false;
@@ -49,8 +50,10 @@ export class BucketlistComponent implements OnInit {
     this.bucketlistService.primaryStream.subscribe((event) => {
       if (event === true) {
         this.getBucketlists();
-      } else if (event) {
+      } else if (event.trim()) {
         this.getBucketlists(event);
+      } else {
+        this.getBucketlists();
       }
     });
   }
@@ -67,6 +70,12 @@ export class BucketlistComponent implements OnInit {
         if (this.allBucketlists.data.length > 0) {
           this.noBucketlists = false;
           this.computeProgress(this.allBucketlists.data);
+        } else {
+          if (search_value) {
+            this.noSearchData = true;
+          } else {
+            this.noBucketlists = true;
+          }
         }
         if (this.allBucketlists.page !== 1) {
           this.firstPage = false;
@@ -84,6 +93,7 @@ export class BucketlistComponent implements OnInit {
       this.allBucketlists = res;
       if (this.allBucketlists.data) {
         this.noBucketlists = false;
+        this.computeProgress(this.allBucketlists.data);
       }
     },
     error => {
@@ -96,6 +106,7 @@ export class BucketlistComponent implements OnInit {
       let totalCounter = 0;
       let completeCounter = 0;
       if (bucketlists[i].items.length < 1) {
+        this.allBucketlists.data[i].total = totalCounter;
         continue;
       }
       for (let j = 0; j < bucketlists[i].items.length; j++) {
@@ -107,6 +118,7 @@ export class BucketlistComponent implements OnInit {
         }
       }
       this.allBucketlists.data[i].progress = (completeCounter / totalCounter) * 100;
+      this.allBucketlists.data[i].total = totalCounter;
     }
   }
 
