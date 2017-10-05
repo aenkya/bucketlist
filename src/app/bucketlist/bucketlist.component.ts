@@ -3,6 +3,7 @@ import {MdDialog, MdSnackBar} from '@angular/material';
 import { Router } from '@angular/router';
 
 import { Bucketlist } from '../shared/models/bucketlist';
+import { Item } from '../shared/models/item';
 import { BucketlistService } from '../shared/bucketlist.service';
 import {DialogsService} from '../shared/core/dialogs.service';
 
@@ -63,8 +64,9 @@ export class BucketlistComponent implements OnInit {
       res => {
         this.feedLoading = !this.feedLoading;
         this.allBucketlists = res;
-        if (this.allBucketlists.data) {
+        if (this.allBucketlists.data.length > 0) {
           this.noBucketlists = false;
+          this.computeProgress(this.allBucketlists.data);
         }
         if (this.allBucketlists.page !== 1) {
           this.firstPage = false;
@@ -87,6 +89,25 @@ export class BucketlistComponent implements OnInit {
     error => {
       this.errorMessage = error;
     });
+  }
+
+  computeProgress(bucketlists: Bucketlist[]) {
+    for (let i = 0; i < bucketlists.length; i++) {
+      let totalCounter = 0;
+      let completeCounter = 0;
+      if (bucketlists[i].items.length < 1) {
+        continue;
+      }
+      for (let j = 0; j < bucketlists[i].items.length; j++) {
+        if (bucketlists[i].items[j].active) {
+          totalCounter++;
+        }
+        if (bucketlists[i].items[j].done && bucketlists[i].items[j].active) {
+          completeCounter++;
+        }
+      }
+      this.allBucketlists.data[i].progress = (completeCounter / totalCounter) * 100;
+    }
   }
 
   openDialog(componentName, bucketlist = null) {

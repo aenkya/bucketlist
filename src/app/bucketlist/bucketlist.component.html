@@ -3,14 +3,15 @@
   <div class="responsesStreamWrapper u-maxWidth640"  *ngFor="let bucketlist of allBucketlists.data">
     <div class="row streamItemConversation-inner cardChromeless">
       <md-progress-bar
-      mode="determinate">
+      mode="determinate"
+      value="{{bucketlist.progress}}">
         Loading...
       </md-progress-bar>
       <div class="streamItemConversationItem streamItemConversationItem--preview">
         <div class="u-clearfix u-marginBottom10">
-          <div class="postMetaInline u-floatLeft">
+          <div class="postMetaInline u-floatLeft u-width100pct">
             <div class="u-flexTop">
-              <div class="u-paddingLeft5 u-bucketlistName">
+              <div class="u-paddingLeft5 u-width80pct">
                 <span *ngIf="model.id!==bucketlist.id">
                   <a class="link--accent u-accentColor--textNormal"  [routerLink]="['/bucketlists', bucketlist.id]" (dblclick)="toggleEdit(bucketlist)">{{bucketlist.name}}</a>
                 </span>
@@ -20,16 +21,11 @@
                   </md-input-container>
                 </span>
               </div>
-              <div class="postMetaInline">
+              <div class="postMetaInline u-width20pct">
                 <div class="u-flexTop">
                   <div class="postMetaInline-avatar u-flex0">
                     <div class="u-fontSize12">
-                      <label for="dateModified" title="date modified">Date Modified</label>
-                      <span class="middotDivider u-fontSize12"></span>
-                      <time id="dateModified">{{bucketlist?.date_modified | date:'H:m, MMM/yy'}}</time>
-                      <label for="dateCreated" title="date Created">Date Created</label>
-                      <span class="middotDivider u-fontSize12"></span>
-                      <time id="dateCreated">{{bucketlist?.date_created | date:'H:m, MMM/yy'}}</time>
+                      <time id="dateCreated">{{bucketlist?.date_created | date:'H:m, MMM, yy'}}</time>
                     </div>
                   </div>
                 </div>
@@ -87,9 +83,11 @@
           </span>
         </button>
       </span>
-      <span class="middotDivider u-fontSize12"></span>
-      <span class="u-fontSize12">{{allBucketlists?.page}}</span>
-      <span class="middotDivider u-fontSize12"></span>
+      <span *ngIf="allBucketlists?.next_page">
+        <span class="middotDivider u-fontSize12"></span>
+        <span class="u-fontSize12">{{allBucketlists?.page}}</span>
+        <span class="middotDivider u-fontSize12"></span>
+      </span>
       <span class="u-textAlignLeft paginator">
         <button *ngIf="allBucketlists.next_page" [disabled]="lastPage" (click)="getPage(allBucketlists.next_page)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Get Next">
           <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">

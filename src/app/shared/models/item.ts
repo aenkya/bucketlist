@@ -5,4 +5,5 @@ export interface Item {
     date_modified: Date;
     bucketlist_id: number;
     done: boolean;
+    active: boolean;
 }

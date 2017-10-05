@@ -516,7 +516,12 @@ main {
 .u-widthAuto {
     width: auto!important
 }
-
+.u-width80pct {
+    width: 80%!important
+}
+.u-width100pct {
+    width: 100%!important;
+}
 .u-width360 {
     width: 360px!important
 }
@@ -529,6 +534,9 @@ main {
 .u-maxWidth30pct {
   max-width: 30%!important;
 }
+.u-maxWidth20pct {
+    max-width: 20%!important;
+  }
 .u-minWidth360 {
   min-width: 360px!important;
 }

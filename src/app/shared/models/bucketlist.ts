@@ -9,4 +9,6 @@ export interface Bucketlist {
     date_modified: Date;
     created_by: number;
     items: Item[];
+    active: boolean;
+    progress: number;
 }

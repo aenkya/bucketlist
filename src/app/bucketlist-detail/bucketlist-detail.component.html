@@ -3,18 +3,35 @@
     <div class="responsesStreamWrapper u-maxWidth640">
       <div class="row streamItemConversation-inner cardChromeless">
         <md-progress-bar
-          mode="determinate">
+          mode="determinate"
+          value="{{bucketlist?.progress}}">
+          Loading...>
           Loading...
         </md-progress-bar>
         <div class="streamItemConversationItem streamItemConversationItem--preview">
           <div class="u-clearfix u-marginBottom10">
-            <div class="postMetaInline u-floatLeft">
+            <div class="postMetaInline u-floatLeft u-width100pct">
               <div class="u-flexTop">
-                <div class="u-paddingLeft5 u-bucketlistName">
+                <div class="u-paddingLeft5 u-width80pct">
                   <a class="link--accent link u-marginRight20" (click)="back()" >
                     <md-icon>arrow_back</md-icon>
                   </a>
                   <a class="link--accent link" (dblclick)="updateBucketlist()" >{{bucketlist.name}}</a>
+                </div>
+                <div class="postMetaInline u-width20pct">
+                  <div class="u-flexTop">
+                    <div class="postMetaInline-avatar u-flex0">
+                      <div class="u-fontSize12">
+                        <label for="dateModified" title="date modified">Last Modified:</label>
+                        <time id="dateModified">{{bucketlist?.date_modified | date:'H:m, dd/MMM/yy'}}</time>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="u-flexTop">
+                <div class="u-paddingLeft5 u-marginLeft20 u-marginTop10">
+                  <p class="u-fontSize12" >{{bucketlist.description}}</p>
                 </div>
               </div>
             </div>
@@ -28,9 +45,9 @@
               <ul class="u-margin0 u-padding0">
                 <li  class="u-marginTop10 u-displayBlock"  *ngFor="let item of items">
                   <span class="postMetaInline u-floatLeft u-width100pct u-marginBottom20">
-                    <span *ngIf="editItem===item.id">
+                    <span *ngIf="itemModel.id===item.id">
                       <md-input-container class="u-width100pct u-noPadding">
-                        <input mdInput name="item" [value]="item.name" id="edit-itemName" [(ngModel)]="itemModel.name" #item="ngModel" (keyup.enter)="updateItem(editItem)" />
+                        <input mdInput name="item" [value]="itemModel.name" id="edit-itemName" [(ngModel)]="itemModel.name" #item="ngModel" (keyup.enter)="updateItem(itemModel.id)" />
                       </md-input-container>
                       <span class="postMetaInline ">
                         <button (click)="toggleEdit()" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Cancel Edit">
@@ -40,7 +57,7 @@
                         </button>
                       </span>
                     </span>
-                    <span *ngIf="editItem!==item.id">
+                    <span *ngIf="itemModel.id!==item.id">
                       <label for="item-{{item.id}}" class="label">
                         <input id="item-{{item.id}}" class="toggle label__checkbox" type="checkbox" (click)="toggleCompletion(item)" [checked]="item.done" />
                         <span class="label__text">
@@ -50,14 +67,14 @@
                         </span>
                       </label>
                       <span mdTooltip="Tooltip!">
-                        <span class="u-fontSize12" title="Double Click to edit" (dblclick)="toggleEdit(item.id)">{{item.name}}</span>
+                        <span class="u-fontSize12" title="Double Click to edit" (dblclick)="toggleEdit(item)">{{item.name}}</span>
                       </span>
                       <button (click)="openDialog('delete', item.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon u-floatRight" title="Delete">
                         <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
                           <md-icon>delete</md-icon>
                         </span>
                       </button>
-                      <button (click)="toggleEdit(item.id)"class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon u-floatRight" title="Delete">
+                      <button (click)="toggleEdit(item)"class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon u-floatRight" title="Delete">
                         <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
                           <md-icon>edit</md-icon>
                         </span>

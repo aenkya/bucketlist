@@ -31,7 +31,6 @@ export class BucketlistDetailComponent implements OnInit {
   id;
   bucketlist_id: number;
   edit = false;
-  editItem: number;
 
   constructor(
     private bucketlistService: BucketlistService,
@@ -78,6 +77,8 @@ export class BucketlistDetailComponent implements OnInit {
         this.items = res;
         if (res.length === 0) {
           this.noItems = true;
+        } else {
+          this.computeProgress(this.items);
         }
       },
       error => {
@@ -150,11 +151,6 @@ export class BucketlistDetailComponent implements OnInit {
     return (item === undefined || item.length === 0) ? false : true;
   }
 
-  toggleEdit(item = null) {
-    this.editItem = item;
-    this.edit = !this.edit;
-  }
-
   updateItem(item_id, completed = null, sweep = false) {
     this.loading = !this.loading;
     this.itemModel.bucketlist_id = this.bucketlist_id;
@@ -190,9 +186,32 @@ export class BucketlistDetailComponent implements OnInit {
     }
   }
 
+  toggleEdit(item = null) {
+    this.resetValues();
+    this.itemModel.id = item.id;
+    this.itemModel.name = item.name;
+    this.edit = !this.edit;
+  }
   resetValues(): void {
     this.model.name = null;
+    this.itemModel.id = null;
     this.itemModel.name = null;
+  }
+
+  computeProgress(items: Item[]) {
+    let totalCounter = 0;
+    let completeCounter = 0;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].active) {
+        totalCounter++;
+      } else {
+        continue;
+      }
+      if (items[i].done) {
+        completeCounter++;
+      }
+    }
+    this.bucketlist.progress = (completeCounter / totalCounter) * 100;
   }
 
   back() {
