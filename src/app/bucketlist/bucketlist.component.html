@@ -79,8 +79,8 @@
   </div>
   <div class="responsesStreamWrapper u-maxWidth640" *ngIf="allBucketlists?.data.length>0">
     <span class="u-marginAuto">
-      <span class="u-textAlignRight paginator">
-        <button [disabled]="allBucketlists?.page===1" (click)="getPage(allBucketlists.prev_page)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon paginator"  title="Get Previous">
+      <span class="u-textAlignRight u-marginRight40pct paginator">
+        <button [disabled]="allBucketlists?.page===1" (click)="getPage(allBucketlists.prev_page)"  title="Get Previous">
           <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
             previous
           </span>
@@ -92,7 +92,7 @@
         <span class="middotDivider u-fontSize12"></span>
       </span>
       <span class="u-textAlignLeft u-marginLeft40pct paginator">
-        <button [disabled]="!allBucketlists?.next_page" (click)="getPage(allBucketlists.next_page)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Get Next">
+        <button [disabled]="!allBucketlists?.next_page" (click)="getPage(allBucketlists.next_page)"  title="Get Next">
           <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
             next
           </span>
