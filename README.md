@@ -7,7 +7,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## How to use the application
 
 Login
-![User Login](https://github.com/elbertbiggs360/bucketlist/blob/master/src/assets/screenshots/)
+![User Login](https://github.com/elbertbiggs360/bucketlist/blob/master/src/assets/screenshots/login.png)
 
 
 Home page. Use the controls below to create a bucketlist as well as log out
