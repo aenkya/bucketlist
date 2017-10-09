@@ -1,43 +1,105 @@
-<span *ngIf="checkItem(allBucketlists)">
+<span *ngIf="allBucketlists?.data">
 
-  <div class="responsesStreamWrapper u-maxWidth640"  *ngFor="let bucketlist of allBucketlists">
+  <div class="responsesStreamWrapper u-maxWidth640"  *ngFor="let bucketlist of allBucketlists.data">
     <div class="row streamItemConversation-inner cardChromeless">
+      <md-progress-bar
+      mode="determinate"
+      value="{{bucketlist.progress}}">
+        Loading...
+      </md-progress-bar>
       <div class="streamItemConversationItem streamItemConversationItem--preview">
         <div class="u-clearfix u-marginBottom10">
-          <div class="postMetaInline u-floatLeft">
+          <div class="postMetaInline u-floatLeft u-width100pct">
             <div class="u-flexTop">
-              <div class="u-paddingLeft5 u-bucketlistName">
-                <a class="link--accent u-accentColor--textNormal"  [routerLink]="['/bucketlists', bucketlist.id]">{{bucketlist.name}}</a>
+              <div class="u-paddingLeft5 u-width80pct">
+                <span *ngIf="model.id!==bucketlist.id">
+                  <a class="link--accent u-accentColor--textNormal"  [routerLink]="['/bucketlists', bucketlist.id]" (dblclick)="toggleEdit(bucketlist)">{{bucketlist.name}}</a>
+                </span>
+                <span *ngIf="model.id===bucketlist.id">
+                  <md-input-container class="u-width100pct u-noPadding">
+                    <input mdInput name="bucketlist" id="edit-bucketlistName" [(ngModel)]="model.name" #name="ngModel" [value]="model.name" />
+                  </md-input-container>
+                </span>
+              </div>
+              <div class="postMetaInline u-width20pct">
+                <div class="u-flexTop">
+                  <div class="postMetaInline-avatar u-flex0">
+                    <div class="u-fontSize12">
+                      <time id="dateCreated">{{bucketlist?.date_created | date:'H:m, MMM, yy'}}</time>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div class="u-paddingRight20 u-paddingLeft20 u-marginTop20 u-description" >
-          <span  *ngIf="bucketlist.items.length>0">
-            <ul class="u-margin0 u-padding0">
-              <li  class="u-inline u-margin0 u-padding0"  *ngFor="let item of bucketlist.items">
-                <span class="u-fontSize12">{{item.name}}</span>
-              </li>
-            </ul>
-          </span>
+          <span *ngIf="model.id!==bucketlist.id" class="u-fontSize12" (dblclick)="toggleEdit(bucketlist)">{{bucketlist.description}}</span>
+          <span *ngIf="model.id===bucketlist.id">
+              <md-input-container class="u-width100pct u-noPadding">
+                <input mdInput name="bucketlist" id="edit-bucketlistDescription" class="u-fontSize12" [(ngModel)]="model.description" #description="ngModel" [value]="model.description" />
+              </md-input-container>
+            </span>
         </div>
         <div class="u-clearfix">
-          <div class="buttonSet u-floatRight">
-            <div class="buttonSet-inner ">
-              <button (click)="openDialog('delete', bucketlist.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon" title="Delete Task">
-                <md-icon>delete</md-icon>
-              </button>
-              <button class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Mark as Complete">
-                <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
-                  <md-icon>done</md-icon>
-                </span>
-              </button>
+          <span *ngIf="model.id!==bucketlist.id">
+              <div class="u-floatLeft u-fontSize12 u--meta">
+                {{bucketlist?.total}} items
+              </div>
+            <div class="buttonSet u-floatRight">
+                <div class="buttonSet-inner ">
+                  <button (click)="openDialog('delete', bucketlist.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon" title="Delete Bucketlist">
+                    <md-icon>delete</md-icon>
+                  </button>
+                  <button (click)="toggleEdit(bucketlist)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Mark as Complete">
+                    <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+                      <md-icon>edit</md-icon>
+                    </span>
+                  </button>
+                </div>
             </div>
-          </div>
+          </span>
+          <span *ngIf="model.id===bucketlist.id">
+              <div class="buttonSet u-floatRight">
+                  <div class="buttonSet-inner ">
+                    <button (click)="toggleEdit()" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon" title="Cancel Edit">
+                      <md-icon>cancel</md-icon>
+                    </button>
+                    <button (click)="updateBucketlist(model.id)" class="button button--chromeless u-baseColor--buttonNormal button--withIcon button--withSvgIcon "  title="Save">
+                      <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+                        <md-icon>save</md-icon>
+                      </span>
+                    </button>
+                  </div>
+              </div>
+            </span>
         </div>
       </div>
     </div>
   </div>
+  <div class="responsesStreamWrapper u-maxWidth640" *ngIf="allBucketlists?.data.length>0">
+    <span class="u-marginAuto">
+      <span class="u-textAlignRight u-marginRight40pct paginator">
+        <button [disabled]="allBucketlists?.page===1" (click)="getPage(allBucketlists.prev_page)"  title="Get Previous">
+          <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+            previous
+          </span>
+        </button>
+      </span>
+      <span>
+        <span class="middotDivider u-fontSize12"></span>
+        <span class="u-fontSize12">{{allBucketlists?.page}}</span>
+        <span class="middotDivider u-fontSize12"></span>
+      </span>
+      <span class="u-textAlignLeft u-marginLeft40pct paginator">
+        <button [disabled]="!allBucketlists?.next_page" (click)="getPage(allBucketlists.next_page)"  title="Get Next">
+          <span class="svgIcon svgIcon--arrowDown svgIcon--19px is-flushRight">
+            next
+          </span>
+        </button>
+      </span>
+    </span>
+  </div>
 </span>
-<app-feed-loader [loading]="loading"></app-feed-loader>
-<app-nobuckets [nobucketlists]="noBucketlists" [isBucketlist]=true></app-nobuckets>
+<app-feed-loader [loading]="feedLoading"></app-feed-loader>
+<app-nobuckets [nobucketlists]="noBucketlists" [isBucketlist]=true [isSearchData]="noSearchData"></app-nobuckets>

@@ -3,6 +3,7 @@ import {MdDialog, MdSnackBar} from '@angular/material';
 import { Router } from '@angular/router';
 
 import { Bucketlist } from '../shared/models/bucketlist';
+import { Item } from '../shared/models/item';
 import { BucketlistService } from '../shared/bucketlist.service';
 import {DialogsService} from '../shared/core/dialogs.service';
 
@@ -13,18 +14,23 @@ import { UserService } from '../shared/user.service';
   selector: 'app-bucketlists',
   templateUrl: './bucketlist.component.html',
   styleUrls: ['./bucketlist.component.scss'],
-  providers: [BucketlistService, UserService]
+  providers: [UserService]
 })
 export class BucketlistComponent implements OnInit {
 
-  allBucketlists: Bucketlist;
+  allBucketlists: any;
+  page_meta: any;
   public authUser: User[];
   model: any = {};
   public result: any;
+  feedLoading = false;
   loading = false;
   noBucketlists = false; // check if there are some bucketlists
+  noSearchData = false;
   errorMessage: any;
   id;
+  edit = false;
+  firstPage = true;
 
   constructor(
     private bucketlistService: BucketlistService,
@@ -40,20 +46,80 @@ export class BucketlistComponent implements OnInit {
   ngOnInit(): void {
     this.authUser = this.userService.authUser;
     this.getBucketlists();
+
+    this.bucketlistService.primaryStream.subscribe((event) => {
+      if (event === true) {
+        this.getBucketlists();
+      } else if (event.trim()) {
+        this.getBucketlists(event);
+      } else {
+        this.getBucketlists();
+      }
+    });
   }
 
-  getBucketlists(): void {
-    this.loading = !this.loading;
-    this.bucketlistService.getBucketlists().subscribe(
+  getBucketlists(search_value: string = null, from_delete = false): void {
+    this.feedLoading = !this.feedLoading;
+    if (from_delete) {
+      this.allBucketlists = {};
+    }
+    this.bucketlistService.getBucketlists(search_value).subscribe(
       res => {
-        this.loading = !this.loading;
-        this.allBucketlists = res['data'];
+        this.feedLoading = !this.feedLoading;
+        this.allBucketlists = res;
+        if (this.allBucketlists.data.length > 0) {
+          this.noBucketlists = false;
+          this.computeProgress(this.allBucketlists.data);
+        } else {
+          if (search_value) {
+            this.noSearchData = true;
+          } else {
+            this.noBucketlists = true;
+          }
+        }
+        if (this.allBucketlists.page !== 1) {
+          this.firstPage = false;
+        }
       },
       error => {
-        this.loading = !this.loading;
+        this.feedLoading = !this.feedLoading;
         this.noBucketlists = true;
         this.errorMessage = error;
       });
+  }
+
+  getPage(nextPage: string) {
+    this.bucketlistService.getPage(nextPage).subscribe(res => {
+      this.allBucketlists = res;
+      if (this.allBucketlists.data) {
+        this.noBucketlists = false;
+        this.computeProgress(this.allBucketlists.data);
+      }
+    },
+    error => {
+      this.errorMessage = error;
+    });
+  }
+
+  computeProgress(bucketlists: Bucketlist[]) {
+    for (let i = 0; i < bucketlists.length; i++) {
+      let totalCounter = 0;
+      let completeCounter = 0;
+      if (bucketlists[i].items.length < 1) {
+        this.allBucketlists.data[i].total = totalCounter;
+        continue;
+      }
+      for (let j = 0; j < bucketlists[i].items.length; j++) {
+        if (bucketlists[i].items[j].active) {
+          totalCounter++;
+        }
+        if (bucketlists[i].items[j].done && bucketlists[i].items[j].active) {
+          completeCounter++;
+        }
+      }
+      this.allBucketlists.data[i].progress = (completeCounter / totalCounter) * 100;
+      this.allBucketlists.data[i].total = totalCounter;
+    }
   }
 
   openDialog(componentName, bucketlist = null) {
@@ -80,6 +146,7 @@ export class BucketlistComponent implements OnInit {
       res => {
         if (res) {
           this.openSnackBar('Bucketlist Deleted', 'UNDO');
+          this.getBucketlists(null, true);
         }
       },
       error => {
@@ -90,10 +157,14 @@ export class BucketlistComponent implements OnInit {
 
   updateBucketlist(bucketlist: number) {
     this.loading = !this.loading;
-    this.bucketlistService.updateBucketlist(bucketlist).subscribe(
+    this.model.id = bucketlist;
+    return this.bucketlistService.updateBucketlist(this.model).subscribe(
       res => {
+        this.resetValues();
         if (res) {
-          this.openSnackBar('All Items marked as Complete', 'UNDO');
+          this.loading = !this.loading;
+          this.getBucketlists();
+          this.toggleEdit();
         }
       },
       error => {
@@ -111,6 +182,20 @@ export class BucketlistComponent implements OnInit {
 
   checkItem(item: any) {
     return (item === undefined || item.length === 0) ? false : true;
+  }
+
+  toggleEdit(bucketlist = null) {
+    this.resetValues();
+    this.model.id = bucketlist.id;
+    this.model.name = bucketlist.name;
+    this.model.description = bucketlist.description;
+    this.edit = !this.edit;
+  }
+
+  resetValues(): void {
+    this.model.name = null;
+    this.model.id = null;
+    this.model.description = null;
   }
 
 }

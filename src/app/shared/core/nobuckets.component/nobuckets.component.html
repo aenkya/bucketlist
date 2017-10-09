@@ -2,3 +2,9 @@
   <img *ngIf="isBucketlist" class="noBucketlists--imageWidth u-marginLeft10pct u-marginRight10pct" src="./assets/images/nobuckets.png" alt="No Bucketlists">
   <img *ngIf="!isBucketlist" class="noBucketlists--imageWidth u-marginLeft10pct u-marginRight10pct" src="./assets/images/challenge.png" alt="No Bucketlists">
 </div>
+<div class="u-floatCenter u-marginTop30pct u-marginAuto" *ngIf="isSearchData">
+  <span class="u-fontSize12">
+    <a (click)="push()">Fetch All</a>
+    <img class="noBucketlists--imageWidth u-marginLeft10pct u-marginRight10pct" src="./assets/images/nobuckets.png" alt="No Bucketlists">
+  </span>
+</div>

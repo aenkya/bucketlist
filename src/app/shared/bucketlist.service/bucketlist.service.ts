@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable, ReplaySubject } from 'rxjs/Rx';
 import { Bucketlist } from '../models/bucketlist';
+import { Item } from '../models/item';
 import { AuthService } from '../auth.service';
 
 @Injectable()
@@ -14,9 +16,10 @@ export class BucketlistService {
   private id: string;
   headers;
   requestoptions;
+  public primaryStream: ReplaySubject<any> = new ReplaySubject();
 
 
-  constructor ( private http: Http, private authService: AuthService) {
+  constructor ( private http: Http, private authService: AuthService, private router: Router) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
 
@@ -30,9 +33,21 @@ export class BucketlistService {
     });
   }
 
-  getBucketlists(): Observable <Bucketlist[]> {
+  getBucketlists(q = null): Observable <Bucketlist[]> {
+    let queryUrl = this.bucketlistsUrl;
+    if (q) {
+      queryUrl = queryUrl + '?q=' + q;
+      console.log(queryUrl);
+    }
     return this.http
-               .get(`${this.bucketlistsUrl}`, this.requestoptions)
+               .get(`${queryUrl}`, this.requestoptions)
+               .map((res) => this.extractData(res))
+               .catch((err) => this.handleError(err));
+  }
+
+  getPage(pageUrl: string): Observable <Bucketlist[]> {
+    return this.http
+               .get(`http://localhost:5000${pageUrl}`, this.requestoptions)
                .map((res) => this.extractData(res))
                .catch((err) => this.handleError(err));
   }
@@ -53,16 +68,46 @@ export class BucketlistService {
                    .catch((err) => this.handleError(err));
   }
 
-  updateBucketlist(model) {
+  updateBucketlist(model): Observable <Boolean> {
     return this.http
-                   .put(`${this.bucketlistsUrl}/${model.bucketlist_id}`, JSON.stringify(model), this.requestoptions)
+                   .put(`${this.bucketlistsUrl}/${model.id}`, JSON.stringify(model), this.requestoptions)
                    .map((res: Response) => {
                       return true;
                    })
                    .catch((err) => this.handleError(err));
   }
 
-  addItem(item) {
+  getItems(bucketlist_id: number): Observable <Item[]> {
+    return this.http
+               .get(`${this.bucketlistsUrl}/${bucketlist_id}/items`, this.requestoptions)
+               .map((res) => this.extractData(res))
+               .catch((err) => this.handleError(err));
+  }
+
+  updateItem(model): Observable <Boolean> {
+    return this.http
+                   .put(`${this.bucketlistsUrl}/${model.bucketlist_id}/items/${model.id}`, JSON.stringify(model), this.requestoptions)
+                   .map((res: Response) => {
+                      return true;
+                   })
+                   .catch((err) => this.handleError(err));
+  }
+
+  deleteItem(model): Observable <Boolean> {
+    return this.http
+      .delete(`${this.bucketlistsUrl}/${model.bucketlist_id}/items/${model.id}`, this.requestoptions)
+      .map((res: Response) => {
+        return true;
+      })
+      .catch((err) => this.handleError(err));
+  }
+
+  search(term: string): Observable <Boolean> {
+    this.primaryStream.next(term);
+    return Observable.of(true);
+  }
+
+  addItem(item): Observable <Boolean> {
     return this.http
     .post(`${this.bucketlistsUrl}/${item.bucketlist_id}/items`,
       JSON.stringify(item),
@@ -73,8 +118,7 @@ export class BucketlistService {
     .catch((err) => this.handleError(err));
   }
 
-  deleteBucketlist(bucketlist) {
-    console.log(bucketlist)
+  deleteBucketlist(bucketlist): Observable <Boolean> {
     return this.http
     .delete(`${this.bucketlistsUrl}/${bucketlist}`, this.requestoptions)
     .map((res: Response) => {
@@ -90,12 +134,8 @@ export class BucketlistService {
 
   private handleError (error: Response | any ) {
     if (error.status === 401) {
-      this.authService.login('test', 'test')
-      .subscribe(result => {
-        if (result === true) {
-          return;
-        }
-    });
+      this.authService.logout();
+      this.router.navigate(['/']);
     }
     let errMsg: string;
     if (error instanceof Response) {
