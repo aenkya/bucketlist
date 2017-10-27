@@ -6,7 +6,6 @@ import { User } from '../shared/models/user';
 import { Bucketlist } from '../shared/models/bucketlist';
 
 import { CreateBucketlistComponent } from '../create-bucketlist';
-import { UpdateBucketlistComponent } from '../update-bucketlist';
 
 import { UserService } from '../shared/user.service';
 import { AuthService } from '../shared/auth.service';

@@ -5,11 +5,13 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
 import { User } from '../models/user';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class UserService {
 
-    private getUserUrl = 'http://localhost:5000/api/v1/users';
+    apiUrl = environment.apiUrl;
+    private getUserUrl = `${this.apiUrl}/api/v1/users`;
     public authUser: User[];
     public available_users;
     public token: string;
