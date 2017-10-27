@@ -3,6 +3,7 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.1.
+This project is hosted at [https://buckellist.herokuapp.com/](https://buckellist.herokuapp.com/)
 
 ## How to use the application
 
