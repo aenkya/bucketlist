@@ -6,12 +6,13 @@ import { Observable, ReplaySubject } from 'rxjs/Rx';
 import { Bucketlist } from '../models/bucketlist';
 import { Item } from '../models/item';
 import { AuthService } from '../auth.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class BucketlistService {
 
-
-  private bucketlistsUrl = 'http://localhost:5000/api/v1/bucketlists';
+  apiUrl = environment.apiUrl;
+  private bucketlistsUrl = `${this.apiUrl}/api/v1/bucketlists`;
   private token: string;
   private id: string;
   headers;
@@ -47,7 +48,7 @@ export class BucketlistService {
 
   getPage(pageUrl: string): Observable <Bucketlist[]> {
     return this.http
-               .get(`http://localhost:5000${pageUrl}`, this.requestoptions)
+               .get(`${this.apiUrl}${pageUrl}`, this.requestoptions)
                .map((res) => this.extractData(res))
                .catch((err) => this.handleError(err));
   }

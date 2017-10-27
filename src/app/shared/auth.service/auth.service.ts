@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
+import { environment } from '../../../environments/environment';
 
 import { User } from '../models/user';
 
 @Injectable()
 export class AuthService {
-    private authUrl = 'http://localhost:5000/api/v1/auth/login';
-    private registerUrl = 'http://127.0.0.1:5000/api/v1/auth/register';
+
+    apiUrl = environment.apiUrl;
+    private authUrl = `${this.apiUrl}/api/v1/auth/login`;
+    private registerUrl = `${this.apiUrl}/api/v1/auth/register`;
     public token: string;
 
     constructor(private http: Http) {
