@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
 export class BucketlistService {
 
   apiUrl = environment.apiUrl;
-  private bucketlistsUrl = `${this.apiUrl}/api/v1/bucketlists`;
+  private bucketlistsUrl = `${this.apiUrl}api/v1/bucketlists`;
   private token: string;
   private id: string;
   headers;

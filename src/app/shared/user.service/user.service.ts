@@ -11,7 +11,7 @@ import { environment } from '../../../environments/environment';
 export class UserService {
 
     apiUrl = environment.apiUrl;
-    private getUserUrl = `${this.apiUrl}/api/v1/users`;
+    private getUserUrl = `${this.apiUrl}api/v1/users`;
     public authUser: User[];
     public available_users;
     public token: string;
