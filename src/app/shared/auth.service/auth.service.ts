@@ -10,8 +10,8 @@ import { User } from '../models/user';
 export class AuthService {
 
     apiUrl = environment.apiUrl;
-    private authUrl = `${this.apiUrl}/api/v1/auth/login`;
-    private registerUrl = `${this.apiUrl}/api/v1/auth/register`;
+    private authUrl = `${this.apiUrl}api/v1/auth/login`;
+    private registerUrl = `${this.apiUrl}api/v1/auth/register`;
     public token: string;
 
     constructor(private http: Http) {
