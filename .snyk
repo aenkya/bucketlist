@@ -1,0 +1,153 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:debug:20170905':
+    - '@angular/cli > silent-error > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > heimdalljs-logger > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > portfinder > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > stylus > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > ember-cli-normalize-entity-name > silent-error > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > portfinder > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > compression > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > serve-index > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > sockjs-client > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > spdy > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-traverse > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > spdy > spdy-transport > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-template > babel-traverse > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > chokidar > fsevents > node-pre-gyp > tar-pack > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack > watchpack > chokidar > fsevents > node-pre-gyp > tar-pack > debug':
+        patched: '2022-10-09T17:34:35.965Z'
+  'npm:extend:20180424':
+    - '@angular/cli > less > request > extend':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > request > extend':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > node-gyp > request > extend':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > chokidar > fsevents > node-pre-gyp > request > extend':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack > watchpack > chokidar > fsevents > node-pre-gyp > request > extend':
+        patched: '2022-10-09T17:34:35.965Z'
+  'npm:hoek:20180212':
+    - '@angular/cli > less > request > hawk > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > request > hawk > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > less > request > hawk > boom > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > request > hawk > boom > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > less > request > hawk > sntp > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > request > hawk > sntp > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > node-gyp > request > hawk > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > less > request > hawk > cryptiles > boom > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > request > hawk > cryptiles > boom > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > node-gyp > request > hawk > boom > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > node-gyp > request > hawk > sntp > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > node-gyp > request > hawk > cryptiles > boom > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > chokidar > fsevents > node-pre-gyp > request > hawk > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > chokidar > fsevents > node-pre-gyp > request > hawk > boom > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > chokidar > fsevents > node-pre-gyp > request > hawk > sntp > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack > watchpack > chokidar > fsevents > node-pre-gyp > request > hawk > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > chokidar > fsevents > node-pre-gyp > request > hawk > cryptiles > boom > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack > watchpack > chokidar > fsevents > node-pre-gyp > request > hawk > boom > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack > watchpack > chokidar > fsevents > node-pre-gyp > request > hawk > sntp > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack > watchpack > chokidar > fsevents > node-pre-gyp > request > hawk > cryptiles > boom > hoek':
+        patched: '2022-10-09T17:34:35.965Z'
+  SNYK-JS-LODASH-567746:
+    - '@angular/cli > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - redux > lodash:
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > html-webpack-plugin > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > inquirer > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-merge > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > extract-text-webpack-plugin > async > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > sass-loader > async > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack > async > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > sass-graph > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > http-proxy-middleware > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack > watchpack > async > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-types > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-generator > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-traverse > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-template > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > gaze > globule > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-generator > babel-types > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-traverse > babel-types > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-template > babel-types > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-template > babel-traverse > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > istanbul-instrumenter-loader > istanbul-lib-instrument > babel-template > babel-traverse > babel-types > lodash':
+        patched: '2022-10-09T17:34:35.965Z'
+  'npm:stringstream:20180511':
+    - '@angular/cli > less > request > stringstream':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > request > stringstream':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > node-gyp > request > stringstream':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > chokidar > fsevents > node-pre-gyp > request > stringstream':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack > watchpack > chokidar > fsevents > node-pre-gyp > request > stringstream':
+        patched: '2022-10-09T17:34:35.965Z'
+  'npm:tough-cookie:20170905':
+    - '@angular/cli > less > request > tough-cookie':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > request > tough-cookie':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > node-sass > node-gyp > request > tough-cookie':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack-dev-server > chokidar > fsevents > node-pre-gyp > request > tough-cookie':
+        patched: '2022-10-09T17:34:35.965Z'
+    - '@angular/cli > webpack > watchpack > chokidar > fsevents > node-pre-gyp > request > tough-cookie':
+        patched: '2022-10-09T17:34:35.965Z'
